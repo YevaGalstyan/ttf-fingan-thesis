@@ -1,5 +1,39 @@
 \subsection{Condition Window and Input Scaling}\label{sec:condition-window}
 
+The generated returns for the ForGAN baseline under varied condition window lengths and input scaling configurations are reported in Table~\ref{tab:condition_window} and Table~\ref{tab:scaling}, respectively. Configuration 5 is the shared baseline against which the two other configurations are compared. The full-split scaling configuration is configuration 5 with the standardization applied to the full training split rather than the reference subset of $n_{\text{batch}}=100$. Configuration 6 is configuration 5 with a longer condition window of $l=30$. With $l=30$ the 401 returns of the test split give $n_{\mathrm{cond}} = 371$ rows instead of $391$. As a result, the reference values of the test split differ in Table~\ref{tab:condition_window}, and the values of configuration 5 are reported in Table~\ref{tab:scaling}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{lrr}
+    \toprule
+     & Test & Configuration 6 \\
+    \midrule
+    Mean               & $0.0003$  & \ms{-0.0006}{0.0026} \\
+    Standard deviation & $0.0408$  & \ms{0.0342}{0.0019}  \\
+    Skewness           & $0.96$    & \ms{0.15}{0.45}      \\
+    Excess kurtosis    & $13.43$   & \ms{3.74}{1.00}      \\
+    Minimum            & $-0.1749$ & \ms{-0.1893}{0.0538} \\
+    Maximum            & $0.3229$  & \ms{0.2314}{0.0248}  \\
+    $1\%$ quantile     & $-0.1333$ & \ms{-0.0935}{0.0062} \\
+    $99\%$ quantile    & $0.0939$  & \ms{0.0930}{0.0163}  \\
+    $P(|x| > 0.05)$    & $0.129$   & \ms{0.119}{0.012}    \\
+    $P(|x| > 0.10)$    & $0.027$   & \ms{0.016}{0.006}    \\
+    \midrule
+    $C_2(1)$           & $0.288$   & \ms{0.191}{0.086}    \\
+    $C_2(2)$           & $0.060$   & \ms{0.151}{0.107}    \\
+    $C_2(5)$           & $0.093$   & \ms{0.125}{0.048}    \\
+    $C_2(10)$          & $0.011$   & \ms{0.111}{0.107}    \\
+    \bottomrule
+  \end{tabular}
+  \caption{Distributional statistics and autocorrelation of generated daily TTF
+  log returns on the test split, ForGAN baseline, configuration 6}
+  \label{tab:condition_window}
+\end{table}
+
+\textbf{Condition window.} The excess kurtosis of the ForGAN baseline decreases from \ms{7.04}{1.83} under configuration 5 to \ms{3.74}{1.00} under configuration 6, compared to the $13.43$ of the test split. The difference is separable, since the seed ranges of the two configurations do not overlap. Configurations 5 and 6 are measured against different reference values of the test split, so the comparison between them is approximate. However, the two reference values differ by $0.16$, while the excess kurtosis falls by $3.30$, so the difference in reference cannot account for the effect. The maximum return is \ms{0.2314}{0.0248} and its seed range does not include the $0.3229$ of the test split. Both exceedance fractions fall short of the test split, \ms{0.119}{0.012} against $0.129$ for $P(|x| > 0.05)$ and \ms{0.016}{0.006} against $0.027$ for $P(|x| > 0.10)$. The skewness is \ms{0.15}{0.45} and crosses zero. Configuration 6 is the furthest from the test split of the configurations trained under the schedule of configuration 2. Increasing the condition window from $l=10$ to $l=30$ reduces the tail weight of the generated returns.
+
+\textbf{Input scaling.} The standard deviation is \ms{0.0354}{0.0031} under configuration 5 and \ms{0.0338}{0.0018} under the full-split scaling configuration, with overlapping seed ranges. The excess kurtosis decreases from \ms{7.04}{1.83} under configuration 5 to \ms{5.55}{2.52} under the full-split scaling configuration. The seed ranges of the two configurations overlap, so the difference is not separable. The skewness for the full-split scaling configuration is \ms{0.30}{0.36}, compared to \ms{0.41}{0.68} for configuration 5, and both seed ranges cross zero. Computing the scaling parameters from the full training split has no separable effect on the generated returns.
+
 \begin{table}[htbp]
   \centering
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrr@{}}
@@ -29,30 +63,4 @@
   \label{tab:scaling}
 \end{table}
 
-\begin{table}[htbp]
-  \centering
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrr@{}}
-    \toprule
-     & Test & Configuration 6 \\
-    \midrule
-    Mean               & $0.0003$  & \ms{-0.0006}{0.0026} \\
-    Standard deviation & $0.0408$  & \ms{0.0342}{0.0019}  \\
-    Skewness           & $0.96$    & \ms{0.15}{0.45}      \\
-    Excess kurtosis    & $13.43$   & \ms{3.74}{1.00}      \\
-    Minimum            & $-0.1749$ & \ms{-0.1893}{0.0538} \\
-    Maximum            & $0.3229$  & \ms{0.2314}{0.0248}  \\
-    $1\%$ quantile     & $-0.1333$ & \ms{-0.0935}{0.0062} \\
-    $99\%$ quantile    & $0.0939$  & \ms{0.0930}{0.0163}  \\
-    $P(|x| > 0.05)$    & $0.129$   & \ms{0.119}{0.012}    \\
-    $P(|x| > 0.10)$    & $0.027$   & \ms{0.016}{0.006}    \\
-    \midrule
-    $C_2(1)$           & $0.288$   & \ms{0.191}{0.086}    \\
-    $C_2(2)$           & $0.060$   & \ms{0.151}{0.107}    \\
-    $C_2(5)$           & $0.093$   & \ms{0.125}{0.048}    \\
-    $C_2(10)$          & $0.011$   & \ms{0.111}{0.107}    \\
-    \bottomrule
-  \end{tabular*}
-  \caption{Distributional statistics and autocorrelation of generated daily TTF
-  log returns on the test split, ForGAN baseline, configuration 6}
-  \label{tab:condition_window}
-\end{table}
+Configuration 6 differs separably from configuration 5 in the excess kurtosis. However, it reduces the tail weight rather than increasing it. The full-split scaling configuration shows no separable effect from configuration 5 in the standard deviation, the excess kurtosis and the skewness. Neither variation of configuration 5 improves the distributional properties of the generated returns. The effect of the cost function terms is examined in Sec.~\ref{sec:effect-cost}.

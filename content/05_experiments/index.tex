@@ -1,5 +1,7 @@
 \section{Experiments}\label{sec:exp}
 
+This section reports the experimental configurations and results for the TTF return series. It covers the properties of the realized series alongside the ForGAN baseline across different training lengths, capacities, condition windows and input scaling. Next, the section examines the effect of cost function terms, followed by model selection and option prices. All configurations are trained with five fixed seeds, and the values are reported as mean and seed spread. The seed range of a value is its mean plus or minus one seed spread. The difference between configurations is treated as separable if their seed ranges do not overlap. A generated value is treated as separable from the test split if its seed range does not contain the realized value. Each subsection reports a defined slice of the full experimental grid from App.~\ref{app:grid}.
+
 \input{content/05_experiments/properties-ttf}
 \input{content/05_experiments/baseline}
 \input{content/05_experiments/network-capacity}

@@ -59,7 +59,7 @@ The generated returns for the ForGAN baseline are reported in Tables~\ref{tab:ca
   \label{tab:capacity_n32}
 \end{table}
 
-\textbf{Discriminator hidden size.} At both values of the noise dimension $N$, the discriminator hidden size $R_D$ has a consistent effect on the excess kurtosis of the generated returns. lIncreasing $R_D$ from 8 to 64 raises the excess kurtosis from \ms{4.51}{1.52} under configuration 2 to \ms{7.95}{1.68} under configuration 4 at $N = 8$, and the seed ranges of the two configurations do not overlap. At $N=32$, the excess kurtosis rises from \ms{4.70}{1.53} under configuration 3 to \ms{7.04}{1.83} under configuration 5, where the seed ranges of the two configurations overlap. Both values remain below the $13.27$ of the test split. Increasing $R_D$ also affects the largest negative returns. The minimum of the generated returns reaches \ms{-0.3212}{0.0454} under configuration 4, while the minimum of the test split is $-0.1749$. The $1\%$ quantile, however, moves from \ms{-0.1074}{0.0162} to \ms{-0.1228}{0.0128} with overlapping seed ranges. Both of these values remain above the $1\%$ quantile of the test split, $-0.1305$. As a result, increasing $R_D$ lowers the minimum of the generated returns, while the level below which $1\,\%$ of the returns fall is not separable from the seed variation.
+\textbf{Discriminator hidden size.} At both values of the noise dimension $N$, the discriminator hidden size $R_D$ has a consistent effect on the excess kurtosis of the generated returns. Increasing $R_D$ from 8 to 64 raises the excess kurtosis from \ms{4.51}{1.52} under configuration 2 to \ms{7.95}{1.68} under configuration 4 at $N = 8$, and the seed ranges of the two configurations do not overlap. At $N=32$, the excess kurtosis rises from \ms{4.70}{1.53} under configuration 3 to \ms{7.04}{1.83} under configuration 5, where the seed ranges of the two configurations overlap. Both values remain below the $13.27$ of the test split. Increasing $R_D$ also affects the largest negative returns. The minimum of the generated returns reaches \ms{-0.3212}{0.0454} under configuration 4, while the minimum of the test split is $-0.1749$. The $1\%$ quantile, however, moves from \ms{-0.1074}{0.0162} to \ms{-0.1228}{0.0128} with overlapping seed ranges. Both of these values remain above the $1\%$ quantile of the test split, $-0.1305$. As a result, increasing $R_D$ lowers the minimum of the generated returns, while the level below which $1\,\%$ of the returns fall is not separable from the seed variation.
 
 \textbf{Generator hidden size.} The generator hidden size $R_G$ has no separable effect on the excess kurtosis of the generated returns at either noise dimension.
 At $N=8$, increasing $R_G$ from 8 to 64 changes the excess kurtosis from \ms{7.95}{1.68} under configuration 4 to \ms{7.85}{3.39} under configuration 10. The seed spread doubles, from $1.68$ to $3.39$, so the larger generator makes the training less stable without changing the mean. At $N=32$, increasing $R_G$ from 8 to 64 raises the excess kurtosis from \ms{7.04}{1.83} under configuration 5 to \ms{10.12}{2.59} under configuration 8. However, the seed ranges of the two configurations overlap.
@@ -78,4 +78,38 @@ As noted in Sec.~\ref{sec:configurations}, $R_G$ is not varied in \textcite{vule
     \label{fig:c2-capacity}
 \end{figure}
 
-Increasing $R_D$ from 8 to 64 is the only capacity change whose effect holds across the two tables. $R_G$ and $N$ have no separable effect on the generated returns. Configuration 8 is the closest to the test split, but remains below it on the excess kurtosis. An increase in capacity alone does not close the gap. The condition window and the input scaling are examined in Sec.~\ref{sec:condition-window}.
+\textbf{Training length at higher capacity.} The training length is examined further at the higher capacity settings, so the schedule of configuration 2 is no longer held fixed. Table~\ref{tab:training_length} reports the generated returns for the ForGAN baseline under configurations 7 and 9. Configurations 7 and 9 are configurations 5 and 8, respectively, with $n_{\text{epochs}} = 1500$.
+
+The excess kurtosis of the generated returns increases from \ms{7.04}{1.83} under configuration 5 to \ms{7.97}{1.22} under configuration 7. The seed ranges overlap, so the difference in the excess kurtosis is not separable. The skewness changes from \ms{0.41}{0.68} to \ms{0.04}{0.30}, both crossing zero. The seed spreads are smaller under configuration 7 throughout the distributional statistics. As a result, a longer training schedule with a generator hidden size of $R_G = 8$ stabilizes the runs without moving them.
+
+The excess kurtosis of the generated returns increases from \ms{10.12}{2.59} under configuration 8 to \ms{13.84}{8.77} under configuration 9. The seed ranges overlap, so the difference in the excess kurtosis is not separable. However, the mean of the excess kurtosis under configuration 9 reaches the $13.27$ of the test split. The seed spread more than triples, from $2.59$ to $8.77$, and is the largest of all configurations in this section. The skewness changes from \ms{0.54}{0.88} to \ms{1.78}{0.99}, the only skewness range among the eight configurations that does not cross zero. The skewness under configuration 9 overshoots the $0.92$ of the test split by roughly a factor of two. The maximum generated return is \ms{0.4608}{0.1127}, and its seed range excludes the $0.3229$ of the test split. $P(|x| > 0.10)$ is \ms{0.040}{0.010}, with a seed range excluding the $0.026$ of the test split. The standard deviation is \ms{0.0436}{0.0054} and its seed range contains the $0.0404$ of the test split. Configuration 9 reaches the tail weight of the test split on average and produces a reliable positive skew. However, it overshoots separably on the maximum and on $P(|x| > 0.10)$, and is the least stable of all configurations in this section.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrr@{}}
+    \toprule
+     & Test & Configuration 7 & Configuration 9 \\
+    \midrule
+    Mean               & $0.0006$  & \ms{-0.0004}{0.0011} & \ms{0.0031}{0.0022}  \\
+    Standard deviation & $0.0404$  & \ms{0.0368}{0.0018}  & \ms{0.0436}{0.0054}  \\
+    Skewness           & $0.92$    & \ms{0.04}{0.30}      & \ms{1.78}{0.99}      \\
+    Excess kurtosis    & $13.27$   & \ms{7.97}{1.22}      & \ms{13.84}{8.77}     \\
+    Minimum            & $-0.1749$ & \ms{-0.3178}{0.0355} & \ms{-0.2355}{0.0246} \\
+    Maximum            & $0.3229$  & \ms{0.3545}{0.0445}  & \ms{0.4608}{0.1127}  \\
+    $1\%$ quantile     & $-0.1305$ & \ms{-0.1166}{0.0129} & \ms{-0.1085}{0.0082} \\
+    $99\%$ quantile    & $0.0903$  & \ms{0.1163}{0.0084}  & \ms{0.1566}{0.0316}  \\
+    $P(|x| > 0.05)$    & $0.130$   & \ms{0.114}{0.007}    & \ms{0.137}{0.012}    \\
+    $P(|x| > 0.10)$    & $0.026$   & \ms{0.030}{0.004}    & \ms{0.040}{0.010}    \\
+    \midrule
+    $C_2(1)$           & $0.289$   & \ms{0.153}{0.070}    & \ms{0.160}{0.084}    \\
+    $C_2(2)$           & $0.061$   & \ms{0.118}{0.088}    & \ms{0.199}{0.110}    \\
+    $C_2(5)$           & $0.094$   & \ms{0.143}{0.100}    & \ms{0.115}{0.059}    \\
+    $C_2(10)$          & $0.012$   & \ms{0.090}{0.058}    & \ms{0.052}{0.042}    \\
+    \bottomrule
+  \end{tabular*}
+  \caption{Distributional statistics and autocorrelation of generated
+  daily TTF log returns on the test split, ForGAN baseline, configurations 7 and 9}
+  \label{tab:training_length}
+\end{table}
+
+Increasing $R_D$ from 8 to 64 is the only capacity change whose effect holds across the two tables. $R_G$ and $N$ have no separable effect on the generated returns. Of the six configurations with a fixed training schedule, configuration 8 is the closest to the test split. However, it remains below the test split on the excess kurtosis. A longer training schedule does not produce a separable change at $R_G=8$. At $R_G = 64$, a longer training schedule brings the mean of the excess kurtosis to the test split value and produces a positive skew, at the cost of stability across seeds. An increase in capacity alone does not close the gap. However, capacity combined with a longer schedule reaches the tail weight of the test split without reproducing its distribution. The condition window and the input scaling are examined in Sec.~\ref{sec:condition-window}.

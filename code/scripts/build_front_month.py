@@ -88,3 +88,6 @@ print(f"Front-month series: {len(front):,} trading days")
 print(f"  Period:  {front.date.min():%Y-%m-%d} to {front.date.max():%Y-%m-%d}")
 print(f"  Price:   {front.front_price.min():.3f} to {front.front_price.max():.3f} EUR/MWh")
 print(f"  Returns: {front.ret.notna().sum():,}")
+front["gap_days"] = front["date"].diff().dt.days
+gaps = front.loc[front["switch"], "gap_days"]
+print(f"  Transition gaps: {gaps.min():.0f} to {gaps.max():.0f} days, median {gaps.median():.0f}")

@@ -1,4 +1,4 @@
-\subsection{Implied Volatility}\label{sec:implied-vol}
+ \subsection{Implied Volatility}\label{sec:implied-vol}
 As described in Sec.~\ref{sec:options}, the price of an option depends on the distribution of $F_T$ in the risk-neutral world. \textcite{blackPricingCommodityContracts1976} gives a closed-form solution for Eq.~\eqref{eq:price-call} and Eq.~\eqref{eq:price-put} under the assumption that $F_T$ is lognormal. The result is known as the Black-76 model. The model further assumes that $\sigma$ and $r$ are constant over the life of
 the option and that the option is European. 
 
@@ -20,7 +20,7 @@ p = e^{-rT} \left[ K N(-d_2) - F_0 N(-d_1) \right],
 \label{eq:black-76-put}
 \end{equation}
 
-where $N$ is the cumulative distribution function of the standard normal distribution, $F_0$ is the current futures price, $K$ is the strike price, $T$ is the time to maturity, $r$ is the risk-free rate, and $\sigma$ is the volatility of the futures price, as defined in Sec.~\ref{sec:financial-markets}. $d_1$ and $d_2$ are given by
+where $N$ is the cumulative distribution function of the standard normal distribution, $F_0$ is the current futures price, $K$ is the strike price, $T$ is the time to maturity, $r$ is the risk-free rate, and $\sigma$ is the volatility of the futures price, as defined in Sec.~\ref{sec:financial-markets}. The Eqs.~\eqref{eq:black-76-call} and~\eqref{eq:black-76-put} do not contain a growth term for $F_0$, since the futures price is not expected to grow in a risk-neutral world (Sec.~\ref{sec:options}). $d_1$ and $d_2$ are given by
 
 \begin{equation}
 d_1 = \frac{\ln(F_0/K) + \sigma^2 T/2}{\sigma \sqrt{T}}, \qquad

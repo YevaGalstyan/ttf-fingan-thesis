@@ -1,35 +1,31 @@
 \subsection{Option Pricing Setup}\label{sec:pricing-setup}
-% The generator approximates the conditional distribution of the next daily log
-% return. Option pricing requires the distribution of the underlying price at
-% maturity, which lies several weeks ahead. Paths were therefore generated
-% recursively.
 
-% The condition was initialized with the $l$ realized returns preceding the
-% valuation date. At each step, one return was drawn from the generator and
-% appended to the condition, while the oldest observation was removed. The step
-% was repeated until the number of generated returns equalled the number of
-% trading days to maturity. After $l$ steps the condition consists of generated
-% returns only. Realized returns were not used after initialization, since they
-% are not available at the valuation date.
+The generator $G$ produces one-day returns for the underlying futures contract. Option pricing, described in Sec.~\ref{sec:options}, requires the distribution of the settlement price at expiry, which lies several weeks ahead of the valuation date. The valuation date is the trading day on which the option is priced. $G$ was applied recursively to generate a path of one-day returns. 
 
-% The simulated price at maturity follows from compounding the generated
-% returns,
-% \begin{equation}
-%     \hat{S}_T = S_0 \exp\left( \sum_{k=1}^{T} \hat{r}_k \right),
-% \end{equation}
-% where $S_0$ is the settlement price at the valuation date and $T$ is the
-% number of trading days to maturity. The procedure was repeated with
-% independent noise samples to obtain a distribution of $\hat{S}_T$.
+\todo{Maybe a visualization of the rollout procedure, showing the condition window and how it moves forward in time?}
 
-% The recursive scheme places the generator outside its training regime. The
-% networks were trained on conditions consisting of realized returns, whereas
-% after $l$ steps the condition consists of generated returns only. Deviations
-% in the generated distribution therefore accumulate along the path. The
-% consequences for the simulated terminal distribution are examined in
-% Sec.~\ref{sec:pricing-results}. 
+The procedure is referred to as a rollout. The rollout was initialized with the $l$ realized returns that preceded the valuation date. At each step, $G$ took the condition window of $l$ returns and produced the next return. The generated return was appended to the condition window, and the oldest return was removed, keeping the window size constant. The step was repeated until the number of generated returns equalled the number of trading days to expiry. After $l$ recursive steps, the condition window consisted of generated returns only. The realized returns were not used after initialization, since the returns after the valuation date are not available when the option is priced. As a result, after $l$ recursive steps, $G$ operates outside the regime it was trained on. Deviations of the generated returns from the realized distribution accumulate along the path.
 
-% \todo{Decide: valuation date and expiry for the pricing benchmark. Requirements
-% --- front-month futures price exists (Bloomberg series ends 2026-04-24), enough
-% listed strikes near the money, and relative spreads tight enough to trust
-% (BBO note: usable mid prices begin in 2025). Candidate window: 2025 to April
-% 2026, inside the test split. Query the master table for candidates.}
+The generated returns were applied in sequence to the settlement price on the valuation date to yield the simulated settlement price at expiry
+\begin{equation}
+    \hat{F}_T = F_t \exp\left( \sum_{k=1}^{h} \hat{x}_k \right),
+    \label{eq:rollout-price}
+\end{equation}
+where $F_t$ is the settlement price on the valuation date, $\hat{x}_k$ is the generated return on step $k$, and $h$ is the number of trading days to expiry. The rollout was repeated with independent noise vectors to give a distribution of $\hat{F}_T$. The expected payoff of the option was calculated following the Monte Carlo procedure described in Sec.~\ref{sec:options}. Monte Carlo standard error was computed for the expected payoff. The error is the standard deviation of the payoff divided by $\sqrt{M}$, where $M=10000$ is the number of simulation paths.
+
+The risk-neutral condition of Sec.~\ref{sec:options} is not enforced in the rollout procedure. $G$ was trained on realized returns, so the generated distribution reflects the observed market behavior, rather than the risk-neutral distribution. As a result, the mean of the simulated settlement prices does not equal $F_t$. The simulated prices were therefore rescaled so that their mean equals $F_t$, following \textcite{jin-chuanduan1995} with adaptations
+\begin{equation}
+    \tilde{F}_T^{(i)} = F_t \,
+    \frac{\hat{F}_T^{(i)}}{\frac{1}{M} \sum_{j=1}^{M} \hat{F}_T^{(j)}},
+    \label{eq:martingale-correction}
+\end{equation}
+where $\hat{F}_T^{(i)}$ is the simulated settlement price on path $i$ and $\tilde{F}_T^{(i)}$ is the corrected price. The correction multiplies the simulated prices by a constant factor, so the skewness and excess kurtosis of the distribution are unchanged. \textcite{jin-chuanduan1995} correct the simulated price at every step, since the payoff they consider depends on the entire path. The payoff of a European option depends only on the settlement price at expiry, so the correction in Eq.~\eqref{eq:martingale-correction} is applied once, at the end of the rollout. They also apply a discount to the mean of the simulated prices, which is not required in Eq.~\eqref{eq:martingale-correction}, since the futures price satisfies the condition $\hat{\mathbb{E}}[F_T] = F_t$ without discounting (Sec.~\ref{sec:options}). 
+
+Both call and put options can be priced from the same simulated distribution of settlement prices, so pricing puts would not test an additional property of the model. Only call options were priced. The strikes were taken from the filtered panel of Sec.~\ref{sec:options-data}, with moneyness between \num{0.5} and \num{2.0}. The test split contains \num{20} expiry dates, one per month, with the first expiry on 2024-09-26 and the last on 2026-04-24. The valuation dates were chosen \num{20} trading days before each expiry. A month is around \num{21} to \num{22} trading days, so the rollout falls within the life of a single contract. As a result, the underlying of the option is the front-month contract, and transition days of Sec.~\ref{sec:m1-construction} do not enter the simulated path.
+
+The rollout was repeated $M$ times per valuation date and seed. The configuration for $G$ was selected in Sec.~\ref{sec:model-selection}, with each of the five seeds priced separately. The results are reported as mean and seed spread, following the convention of Chapter~\ref{sec:exp}. The discount factor $e^{-r T}$ of Sec.~\ref{sec:options} was applied to the expected payoff. €STR, the euro short-term rate from the European Central Bank, was used as the risk-free rate \parencite{europeancentralbankEuroShorttermRate}. €STR is quoted as a simple annual rate, so it was converted to continuous compounding, $r=\ln{(1+r_\text{€STR})}$. The rate on the valuation date was used for the whole life of the option. €STR was missing on two valuation dates that fall on bank holidays, so the last published rate was used instead. The valuation dates and discount rates are constructed in \texttt{build\_pricing\_dates.py}.
+
+The simulated distribution does not depend on the strike, so one set of paths was used for all strikes of the corresponding expiry. Option prices depend on the distance between the strike and the settlement price on the valuation date, so prices at different strikes cannot be compared directly. Each option price was converted to an implied volatility, following the procedure described in Sec.~\ref{sec:implied-vol}. The inversion requires the option prices to lie within the bounds of Sec.~\ref{sec:options}. An option price below the lower bound does not carry an implied volatility. The correction of Eq.~\eqref{eq:martingale-correction} keeps the simulated prices within the bounds \parencite{jin-chuanduan1995}. The implied volatility for options is published by the exchange (Sec.~\ref{sec:options-data}), so the inversion procedure is not needed for the market prices. The pricing procedure is implemented in \texttt{price\_options.py}.
+
+
+\todo{verify the EMS bounds claim against the paper before submission.}

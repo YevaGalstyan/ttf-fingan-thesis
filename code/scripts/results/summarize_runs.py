@@ -16,12 +16,13 @@ Usage:
 """
 
 import argparse
+import sys
 from pathlib import Path
 
 import pandas as pd
 
-BASE = Path(__file__).resolve().parent.parent
-RUNS = BASE / "output" / "runs"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from paths import RUNS
 
 COLS = ["path_skew", "path_kurt", "pool_skew", "pool_kurt", "sr_w", "sr_w_val"]
 

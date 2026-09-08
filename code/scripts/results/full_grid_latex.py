@@ -15,9 +15,8 @@ from pathlib import Path
 
 import pandas as pd
 
-BASE = Path(__file__).resolve().parent.parent
-RUNS = BASE / "output" / "runs"
-OUT = BASE / "content" / "99_appendix" / "grid_tables.tex"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from paths import RUNS, GRID_TABLES_TEX as OUT
 
 # Script config names map to the thesis configuration numbers of Table 1.
 CONFIGS = {

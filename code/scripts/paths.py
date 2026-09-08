@@ -3,6 +3,7 @@
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
+REPO_ROOT = BASE.parent
 
 DATA_DIR    = BASE / "data"
 FUTURES_DIR = DATA_DIR / "futures"
@@ -16,6 +17,8 @@ FIG_DIR = BASE / "figures"
 TFM_CSV       = OUT_DIR / "TFM.csv"
 MASTER_PATH   = OUT_DIR / "master_options_daily.parquet"
 PRICING_DATES = OUT_DIR / "pricing_dates.csv"
+
+GRID_TABLES_TEX = REPO_ROOT / "content" / "appendix" / "grid_tables.tex"
 
 DEF_GLOB    = str(OPTIONS_DIR / "definition" / "*.parquet")
 STATS_GLOB  = str(OPTIONS_DIR / "statistics" / "*.parquet")

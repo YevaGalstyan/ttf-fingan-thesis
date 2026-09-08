@@ -8,9 +8,13 @@ Reports the two figures quoted in the thesis:
 Run build_front_month.py first.
 """
 
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy.stats import skew, kurtosis
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import FUTURES_DIR, OUT_DIR
 
 ohlc = pd.read_parquet(FUTURES_DIR / "TFM_ohlc.parquet")

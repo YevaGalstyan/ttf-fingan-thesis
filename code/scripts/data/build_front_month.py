@@ -9,8 +9,12 @@ Also reports the diagnostics quoted in the thesis:
   - contract transition day statistics (Front-Month Series Construction)
 """
 
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import FUTURES_DIR, OUT_DIR, TFM_CSV
 
 # ---------------------------------------------------------------- load

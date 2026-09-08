@@ -7,7 +7,11 @@ so the counts quoted there can be reproduced.
 Run build_options_panel.py first.
 """
 
+import sys
+from pathlib import Path
 import duckdb
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import MASTER_PATH
 
 con = duckdb.connect()

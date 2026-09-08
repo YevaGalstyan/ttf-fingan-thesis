@@ -8,9 +8,13 @@ horizon and the discount rate.
 Run build_front_month.py and build_options_panel.py first.
 """
 
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import duckdb
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import MASTER_PATH, ESTR_CSV, PRICING_DATES, TFM_CSV
 
 # Rollout horizon in trading days. A month is 21 to 22 trading days, so 20

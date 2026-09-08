@@ -11,7 +11,11 @@ The spine is daily_stats: a row exists only where a settlement price exists.
 Quotes and trades are joined on as optional enrichment.
 """
 
+import sys
+from pathlib import Path
 import duckdb
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import DEF_GLOB, STATS_GLOB, MASTER_PATH, OUT_DIR, TFM_CSV
 
 con = duckdb.connect()

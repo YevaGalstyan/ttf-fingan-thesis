@@ -9,6 +9,7 @@ Run build_front_month.py first.
 """
 
 import random, json
+import sys
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -21,9 +22,9 @@ import ttf_eval
 import contextlib
 import io
 
-BASE = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE / "output"
-RUNS = BASE / "output" / "runs"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from paths import OUT_DIR as DATA_DIR, RUNS
+
 RUNS.mkdir(parents=True, exist_ok=True)
 
 # --- data parameters ---

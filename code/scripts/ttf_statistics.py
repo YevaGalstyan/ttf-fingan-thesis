@@ -7,10 +7,12 @@ for the generated returns.
 Run build_front_month.py first.
 """
 
+import sys
 import numpy as np
 import pandas as pd
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "model"))
 from ttf_eval import distribution_stats, acf
 
 BASE = Path(__file__).resolve().parent.parent

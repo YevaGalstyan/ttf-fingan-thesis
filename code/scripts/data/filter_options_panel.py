@@ -8,12 +8,7 @@ Run build_options_panel.py first.
 """
 
 import duckdb
-from pathlib import Path
-
-BASE = Path.cwd().parent
-OUT_DIR = BASE / "output"
-
-MASTER_PATH = str(OUT_DIR / "master_options_daily.parquet")
+from paths import MASTER_PATH
 
 con = duckdb.connect()
 con.execute("SET TimeZone = 'UTC'")

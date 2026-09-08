@@ -11,13 +11,9 @@ Run build_front_month.py first.
 import numpy as np
 import pandas as pd
 from scipy.stats import skew, kurtosis
-from pathlib import Path
+from paths import FUTURES_DIR, OUT_DIR
 
-BASE = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE / "data" / "futures"
-OUT_DIR = BASE / "output"
-
-ohlc = pd.read_parquet(DATA_DIR / "TFM_ohlc.parquet")
+ohlc = pd.read_parquet(FUTURES_DIR / "TFM_ohlc.parquet")
 front = pd.read_parquet(OUT_DIR / "front_month_full.parquet")
 
 # The settlement price is not a traded price: it lies outside the day's own

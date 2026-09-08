@@ -2,8 +2,6 @@
 
 The generator $G$ produces one-day returns for the underlying futures contract. Option pricing, described in Sec.~\ref{sec:options}, requires the distribution of the settlement price at expiry, which lies several weeks ahead of the valuation date. The valuation date is the trading day on which the option is priced. $G$ was applied recursively to generate a path of one-day returns. 
 
-\todo{Maybe a visualization of the rollout procedure, showing the condition window and how it moves forward in time?}
-
 The procedure is referred to as a rollout. The rollout was initialized with the $l$ realized returns that preceded the valuation date. At each step, $G$ took the condition window of $l$ returns and produced the next return. The generated return was appended to the condition window, and the oldest return was removed, keeping the window size constant. The step was repeated until the number of generated returns equalled the number of trading days to expiry. After $l$ recursive steps, the condition window consisted of generated returns only. The realized returns were not used after initialization, since the returns after the valuation date are not available when the option is priced. As a result, after $l$ recursive steps, $G$ operates outside the regime it was trained on. Deviations of the generated returns from the realized distribution accumulate along the path.
 
 The generated returns were applied in sequence to the settlement price on the valuation date to yield the simulated settlement price at expiry
@@ -27,5 +25,6 @@ The rollout was repeated $M$ times per valuation date and seed. The configuratio
 
 The simulated distribution does not depend on the strike, so one set of paths was used for all strikes of the corresponding expiry. Option prices depend on the distance between the strike and the settlement price on the valuation date, so prices at different strikes cannot be compared directly. Each option price was converted to an implied volatility, following the procedure described in Sec.~\ref{sec:implied-vol}. The inversion requires the option prices to lie within the bounds of Sec.~\ref{sec:options}. An option price below the lower bound does not carry an implied volatility. The correction of Eq.~\eqref{eq:martingale-correction} keeps the simulated prices within the bounds \parencite{jin-chuanduan1995}. The implied volatility for options is published by the exchange (Sec.~\ref{sec:options-data}), so the inversion procedure is not needed for the market prices. The pricing procedure is implemented in \texttt{price\_options.py}.
 
+\todo{Maybe a visualization of the full pricing procedure?}
 
-\todo{verify the EMS bounds claim against the paper before submission.}
+\todo{Verify the emperical martingale simulation bounds claim against the paper before submission.}

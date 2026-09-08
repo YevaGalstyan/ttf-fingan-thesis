@@ -11,14 +11,7 @@ Run build_front_month.py and build_options_panel.py first.
 import numpy as np
 import pandas as pd
 import duckdb
-from pathlib import Path
-
-BASE = Path(__file__).resolve().parent.parent
-OUT_DIR = BASE / "output"
-
-MASTER_PATH = str(OUT_DIR / "master_options_daily.parquet")
-ECB_CSV = BASE / "data" / "ESTR" / "ESTR_2019_2026.csv"
-OUT_PATH = OUT_DIR / "pricing_dates.csv"
+from paths import MASTER_PATH, ESTR_CSV, PRICING_DATES, TFM_CSV
 
 # Rollout horizon in trading days. A month is 21 to 22 trading days, so 20
 # keeps the whole path inside the life of a single front-month contract.
@@ -33,7 +26,7 @@ con.execute("SET TimeZone = 'UTC'")
 
 # --- 1. risk-free rate ------------------------------------------------------
 # Euro short-term rate, published by the ECB on TARGET business days.
-estr = pd.read_csv(ECB_CSV, parse_dates=["DATE"])
+estr = pd.read_csv(ESTR_CSV, parse_dates=["DATE"])
 estr.columns = ["date", "period", "estr"]
 estr = estr[["date", "estr"]].dropna()
 estr_series = estr.set_index("date")["estr"].sort_index()
@@ -49,7 +42,7 @@ expiries = con.sql(f"""
 
 
 # --- 3. valuation date H trading days before each expiry --------------------
-fut = pd.read_csv(OUT_DIR / "TFM.csv", parse_dates=["date"])
+fut = pd.read_csv(TFM_CSV, parse_dates=["date"])
 dates = fut["date"].values
 prices = fut["AdjClose"].values
 
@@ -81,6 +74,6 @@ val["T"] = H / 252.0                                           # trading-day yea
 
 val = val[["expiry", "valuation", "F_t", "gap_days", "h", "T", "estr", "r"]]
 
-val.to_csv(OUT_PATH, index=False)
+val.to_csv(PRICING_DATES, index=False)
 print(val.to_string())
-print(f"\n{len(val)} valuation dates written to {OUT_PATH}")
+print(f"\n{len(val)} valuation dates written to {PRICING_DATES}")

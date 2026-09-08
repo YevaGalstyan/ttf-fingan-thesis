@@ -11,21 +11,8 @@ The spine is daily_stats: a row exists only where a settlement price exists.
 Quotes and trades are joined on as optional enrichment.
 """
 
-from pathlib import Path
 import duckdb
-
-BASE = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE / "data" / "options"
-FUTURES_DIR = BASE / "data" / "futures"
-OUT_DIR = BASE / "output"
-
-DEF_GLOB   = str(DATA_DIR / "definition" / "*.parquet")
-STATS_GLOB = str(DATA_DIR / "statistics" / "*.parquet")
-BBO_GLOB   = str(DATA_DIR / "bbo" / "*.parquet")
-OHLC_GLOB  = str(DATA_DIR / "ohlc" / "*.parquet")
-
-TFM_CSV  = OUT_DIR / "TFM.csv"
-OUT_PATH = OUT_DIR / "master_options_daily.parquet"
+from paths import DEF_GLOB, STATS_GLOB, MASTER_PATH, OUT_DIR, TFM_CSV
 
 con = duckdb.connect()
 con.execute("SET TimeZone = 'UTC'")
@@ -125,7 +112,7 @@ LEFT JOIN read_csv_auto('{TFM_CSV}') f
 """)
 
 OUT_DIR.mkdir(parents=True, exist_ok=True)
-con.execute(f"COPY master TO '{OUT_PATH}' (FORMAT PARQUET, COMPRESSION ZSTD)")
+con.execute(f"COPY master TO '{MASTER_PATH}' (FORMAT PARQUET, COMPRESSION ZSTD)")
 
 n_rows = con.execute("SELECT COUNT(*) FROM master").fetchone()[0]
-print(f"{n_rows:,} rows written to {OUT_PATH}")
+print(f"{n_rows:,} rows written to {MASTER_PATH}")

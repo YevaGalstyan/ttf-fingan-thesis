@@ -11,18 +11,13 @@ Also reports the diagnostics quoted in the thesis:
 
 import numpy as np
 import pandas as pd
-from scipy.stats import skew, kurtosis
-from pathlib import Path
-
-BASE = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE / "data" / "futures"
-OUT_DIR = BASE / "output"
+from paths import FUTURES_DIR, OUT_DIR, TFM_CSV
 
 # ---------------------------------------------------------------- load
 
-ohlc = pd.read_parquet(DATA_DIR / "TFM_ohlc.parquet")
-meta = pd.read_parquet(DATA_DIR / "TFM_meta.parquet")
-chains = pd.read_parquet(DATA_DIR / "TFM_chains.parquet")
+ohlc = pd.read_parquet(FUTURES_DIR / "TFM_ohlc.parquet")
+meta = pd.read_parquet(FUTURES_DIR / "TFM_meta.parquet")
+chains = pd.read_parquet(FUTURES_DIR / "TFM_chains.parquet")
 
 ohlc["date"] = pd.to_datetime(ohlc["date"])
 chains["as_of"] = pd.to_datetime(chains["as_of"])
@@ -78,7 +73,7 @@ pd.DataFrame(
         "date": front["date"],
         "AdjClose": front["front_price"],  # column name expected by Fin-GAN
     }
-).to_csv(OUT_DIR / "TFM.csv", index=False)
+).to_csv(TFM_CSV, index=False)
 
 front.to_parquet(OUT_DIR / "front_month_full.parquet", index=False)
 

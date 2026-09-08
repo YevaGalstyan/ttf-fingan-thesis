@@ -7,13 +7,13 @@ train, validation and test splits shaded.
 Writes the figure used in Data Split.
 """
 
+import sys
+from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
-from pathlib import Path
 
-BASE = Path(__file__).resolve().parent.parent.parent
-OUT_DIR = BASE / "output"
-FIG_DIR = BASE / "figures"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from paths import OUT_DIR, FIG_DIR
 
 # ---------------------------------------------------------------- load
 

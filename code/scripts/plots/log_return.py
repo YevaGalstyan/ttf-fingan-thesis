@@ -8,14 +8,14 @@ split shading of the price series figure.
 Writes the figure used in Properties of the TTF Return Series.
 """
 
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pathlib import Path
 
-BASE = Path(__file__).resolve().parent.parent.parent
-OUT_DIR = BASE / "output"
-FIG_DIR = BASE / "figures"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from paths import OUT_DIR, FIG_DIR
 
 # ---------------------------------------------------------------- load
 

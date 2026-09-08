@@ -7,13 +7,13 @@ capacity configurations against the test split.
 Writes the figure used in Network Capacity.
 """
 
+import sys
+from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
-from pathlib import Path
 
-BASE = Path(__file__).resolve().parent.parent.parent
-RUNS = BASE / "output" / "runs"
-FIG_DIR = BASE / "figures"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from paths import RUNS, FIG_DIR
 
 LAGS = [1, 2, 5, 10]
 GEN_COLS = [f"path_acf2_lag{t}" for t in LAGS]

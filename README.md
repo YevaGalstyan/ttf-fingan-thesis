@@ -64,15 +64,35 @@ Build artifacts (`main.aux`, `main.log`, `main.toc`, and similar) are generated 
 ```
 code/
   scripts/
-    build_front_month.py          Bloomberg parquet files to daily front-month series
-    build_options_master.py       Databento folders to contract-day master table
-    fingan.py                     Fin-GAN training, adapted from the reference code
-    ttf_eval.py                   Distributional evaluation of a trained generator
-    ttf_statistics.py             Summary statistics of the realized return series
+    paths.py                        Shared input/output paths, imported by every script below
+    data/
+      build_front_month.py          Bloomberg parquet files to daily front-month series
+      build_options_panel.py        Databento folders to contract-day master table
+      build_pricing_date.py         Pricing date table for the option pricing benchmark
+      diagnostics_front_month.py    Front-month series diagnostics quoted in the thesis
+      filter_options_panel.py       Row/contract counts after each options panel filter
+    model/
+      FinGAN.py                     Fin-GAN training, adapted from the reference code
+      ttf_eval.py                   Distributional evaluation of a trained generator
+      run_ablation.py               Ablation grid, ten cost functions x eleven configurations
+    plots/
+      price_series.py               Front-month price series figure
+      log_return.py                 Log return series figure
+      autocorr_foregan.py           ForGAN autocorrelation-of-squared-returns figure
+    results/
+      ttf_statistics.py             Summary statistics of the realized return series
+      summarize_runs.py             Ablation results aggregated into thesis tables
+      full_grid_latex.py            Full ablation grid as LaTeX tables (content/appendix)
+    exploration/
+      *_audit.ipynb                 Source data audits (bbo, definitions, master, ohlc,
+                                     statistics, status) underlying Sec. 4.1
   data/                           Source data — not tracked
   output/                         Generated files — not tracked
   requirements.txt
 ```
+
+Every script under `scripts/` resolves its paths from `paths.py` rather than hardcoding them,
+so run them from anywhere — the working directory does not matter.
 
 The source data is not included in this repository. Place the Bloomberg parquet files and the Databento folders under `code/data/` before running anything.
 

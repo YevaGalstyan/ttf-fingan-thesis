@@ -12,7 +12,7 @@ ESTR_CSV    = DATA_DIR / "ESTR" / "ESTR_2019_2026.csv"
 
 OUT_DIR = BASE / "output"
 RUNS    = OUT_DIR / "runs"
-FIG_DIR = BASE / "figures"
+FIG_DIR = REPO_ROOT / "figures"
 
 TFM_CSV       = OUT_DIR / "TFM.csv"
 MASTER_PATH   = OUT_DIR / "master_options_daily.parquet"

@@ -6,7 +6,7 @@ The futures data was obtained from BASF's Bloomberg infrastructure and covers
 TTF natural gas futures for the first three nearby contracts between January
 2010 and April 2026. The data is distributed as three schemas: contract prices, contract metadata, and monthly listings of active contracts.
 
-\textbf{Daily settlement prices.} This schema provides the price history of the contracts in the dataset.  Each contract is observed once per trading day, identified by contract symbol and trading date. Each record contains opening, high, low and daily closing prices in EUR/MWh, trading volume and open interest. Coverage of these fields varies considerably with how actively a contract was traded and how far from expiry it is. The closing price is the exception and is available throughout the whole dataset. Additionally, it falls outside the intraday high–low range for \num{7712} of \num{25884}  records, or 29.8\%. The deviation is small in most cases, with a median of \num{0.10} EUR/MWh, but reaches up to \num{42.26} EUR/MWh. The latter confirms that it is a settlement price set by the exchange rather than a price at which trading occurred.
+\textbf{Daily settlement prices.} This schema provides the price history of the contracts in the dataset.  Each contract is observed once per trading day, identified by contract symbol and trading date. Each record contains opening, high, low and daily closing prices in EUR/MWh, trading volume and open interest. Coverage of these fields varies considerably with how actively a contract was traded and how far from expiry it is. The closing price is the exception and is available throughout the whole dataset. Additionally, it falls outside the intraday high–low range for \num{7712} of \num{25884}  records, or \SI{29.8}{\percent}. The deviation is small in most cases, with a median of \num{0.10} EUR/MWh, but reaches up to \num{42.26} EUR/MWh. The latter confirms that it is a settlement price set by the exchange rather than a price at which trading occurred.
 
 \textbf{Contract metadata.} This schema provides static attributes per unique contract in the dataset. The expiry date provided per record is used to rank contracts by time to maturity in Sec.~\ref{sec:m1-construction}. All contracts in the dataset are physically delivered instruments traded on ICE Endex and quoted in EUR/MWh. First and last trading dates, notice dates and delivery dates are also recorded.
 
@@ -47,7 +47,7 @@ where $P_t$ is the front-month settlement price on trading day $t$.
 The transformation gives \num{3997} return observations.
 
 \subsubsection{Data Split}\label{sec:data-split}
-The return series was split chronologically into training (80\%), validation (10\%), and test (10\%) sets using the proportions of \textcite{vuleticFinGANForecastingClassifying2024}. Training covers 2010-01-05 to 2023-01-18
+The return series was split chronologically into training (\SI{80}{\percent}), validation (\SI{10}{\percent}), and test (\SI{10}{\percent}) sets using the proportions of \textcite{vuleticFinGANForecastingClassifying2024}. Training covers 2010-01-05 to 2023-01-18
 validation 2023-01-19 to 2024-09-04 (\num{399} returns), and test
 2024-09-05 to 2026-04-24 (\num{401} returns).
 \begin{figure}[htbp]

@@ -1,1 +1,122 @@
 \subsection{Effect of the Cost Function Terms}\label{sec:effect-cost}
+The generated returns for the ten cost function branches of Sec.~\ref{sec:configurations} are reported in Tables~\ref{tab:loss_c9_single}, \ref{tab:loss_c9_nosr} and~\ref{tab:loss_c9_sr}. All ten branches are trained under configuration 8 to isolate the effect of the cost function. As reported in Sec.~\ref{sec:network-capacity}, configuration 8 is the closest to the test split among the configurations that remain stable across seeds. Table~\ref{tab:loss_c9_single} reports the single cost function terms. Tables~\ref{tab:loss_c9_nosr} and~\ref{tab:loss_c9_sr} report the combinations of cost function terms, separated by the presence of the $\mathrm{SR}^{*}$ term. The ForGAN baseline is reported as a reference in all three tables. The full results for all configurations and cost function branches are given in App.~\ref{app:grid}.
+
+\textbf{Heavy tails.} None of the nine cost function branches is separable from ForGAN on excess kurtosis, as all ten seed ranges overlap. The mean excess kurtosis of all branches is below the \num{13.27} of the test split. The lowest excess kurtosis is \ms{6.78}{1.29} for the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ \& $\mathrm{STD}$ branch and the highest is \ms{12.03}{5.45} for the $\mathrm{PnL}^{*}_{a}$ branch, compared to \ms{10.12}{2.59} of the ForGAN baseline and \num{13.27} of the test split. The seed ranges of the $\mathrm{MSE}$, $\mathrm{PnL}^{*}_{a}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ branches contain the \num{13.27} of the test split, while every other branch falls short. The standard deviation is the lowest for the $\mathrm{SR}^{*}$ \& $\mathrm{MSE}$ branch at \ms{0.0331}{0.0034} and the highest for the $\mathrm{PnL}^{*}_{a}$ branch at \ms{0.0414}{0.0030}. The seed ranges of the ForGAN baseline, $\mathrm{PnL}^{*}_{a}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ contain the \num{0.0404} of the test split, while every other branch falls short. The seed range of $P(|x|>0.10)$ is separable from ForGAN only for the $\mathrm{SR}^{*}$ \& $\mathrm{MSE}$ branch at \ms{0.016}{0.004} against \ms{0.027}{0.006}.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}rrrr}
+    \toprule
+     & ForGAN & MSE & PnL$^*_a$ & SR$^*$ \\
+    \midrule
+    Mean & \msa{0.0019}{0.0034} & \msa{0.0006}{0.0023} & \msa{0.0004}{0.0030} & \msa{0.0010}{0.0005} \\
+    Standard deviation & \msa{0.0369}{0.0036} & \msa{0.0377}{0.0024} & \msa{0.0414}{0.0030} & \msa{0.0341}{0.0036} \\
+    Skewness & \msa{0.54}{0.88} & \msa{0.23}{1.29} & \msa{0.93}{0.30} & \msa{-0.59}{0.16} \\
+    Excess kurtosis & \msa{10.12}{2.59} & \msa{10.13}{4.39} & \msa{12.03}{5.45} & \msa{8.08}{2.72} \\
+    Minimum & \msa{-0.2509}{0.0482} & \msa{-0.2644}{0.0655} & \msa{-0.2542}{0.0468} & \msa{-0.2612}{0.0373} \\
+    Maximum & \msa{0.3742}{0.0535} & \msa{0.3343}{0.1207} & \msa{0.3950}{0.0887} & \msa{0.2268}{0.0474} \\
+    1 \% quantile & \msa{-0.1055}{0.0304} & \msa{-0.1155}{0.0144} & \msa{-0.1297}{0.0187} & \msa{-0.0913}{0.0171} \\
+    99 \% quantile & \msa{0.1185}{0.0258} & \msa{0.1200}{0.0257} & \msa{0.1401}{0.0235} & \msa{0.0945}{0.0113} \\
+    $P(|x| > 0.05)$ & \msa{0.104}{0.016} & \msa{0.106}{0.006} & \msa{0.119}{0.010} & \msa{0.100}{0.025} \\
+    $P(|x| > 0.10)$ & \msa{0.027}{0.006} & \msa{0.030}{0.007} & \msa{0.036}{0.005} & \msa{0.017}{0.005} \\
+    \midrule
+    $C_2(1)$ & \msa{0.263}{0.201} & \msa{0.165}{0.122} & \msa{0.226}{0.077} & \msa{0.229}{0.039} \\
+    $C_2(2)$ & \msa{0.170}{0.113} & \msa{0.181}{0.097} & \msa{0.185}{0.144} & \msa{0.377}{0.156} \\
+    $C_2(5)$ & \msa{0.167}{0.112} & \msa{0.183}{0.069} & \msa{0.182}{0.072} & \msa{0.158}{0.022} \\
+    $C_2(10)$ & \msa{0.144}{0.103} & \msa{0.112}{0.114} & \msa{0.153}{0.134} & \msa{0.060}{0.061} \\
+    \bottomrule
+  \end{tabular*}
+  \caption{Distributional statistics and autocorrelation of generated daily TTF log returns on the test split, the single cost function terms, configuration 8}
+  \label{tab:loss_c9_single}
+\end{table}
+\textbf{Asymmetry.} The seed ranges of all four branches containing the $\mathrm{SR}^{*}$ term are separable from ForGAN on skewness, and all four are negative. The skewness is \ms{-0.59}{0.16} for the $\mathrm{SR}^{*}$ branch, and the three branches containing $\mathrm{SR}^{*}$ are within \num{0.05} of it, against the \ms{0.54}{0.88} of the ForGAN baseline and the \num{0.92} of the test split.  The mean skewness of the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{STD}$ branch is \ms{-0.09}{0.95}, but its seed range crosses zero and overlaps that of the ForGAN baseline. The highest skewness is \ms{1.11}{0.42} for the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ \& $\mathrm{STD}$ branch. The seed ranges of the ForGAN baseline
+and of the $\mathrm{MSE}$, $\mathrm{PnL}^{*}_{a}$, $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ \& $\mathrm{STD}$ branches contain the \num{0.92} of the test split.
+
+The $\mathrm{SR}^{*}$ economics-driven term determines the sign of the skewness regardless of what it is combined with. The skewness is \ms{0.93}{0.30} for the $\mathrm{PnL}^{*}_{a}$ branch alone, compared to the \ms{-0.64}{0.20} of the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{SR}^{*}$ branch. As defined in Eq.~\eqref{eq:sharpe-ratio}, $\mathrm{SR}^{*}$ is the mean of the $\mathrm{PnL}^{*}_{a}$ series divided by its standard deviation. A forecast with $p_i$ far above the others increases the numerator and the denominator. As reported in Sec.~\ref{sec:properties-ttf}, large positive returns are more likely than large negative ones in the TTF series. As a result, the forecasts made on those days can decrease $\mathrm{SR}^{*}$, while they always increase $\mathrm{PnL}^{*}_{a}$.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}rrrr}
+    \toprule
+     & ForGAN & PnL$^*_a$ \& MSE & PnL$^*_a$ \& STD & PnL$^*_a$ \& MSE \& STD \\
+    \midrule
+    Mean & \msa{0.0019}{0.0034} & \msa{0.0009}{0.0020} & \msa{-0.0007}{0.0032} & \msa{0.0012}{0.0009} \\
+    Standard deviation & \msa{0.0369}{0.0036} & \msa{0.0397}{0.0032} & \msa{0.0356}{0.0017} & \msa{0.0353}{0.0032} \\
+    Skewness & \msa{0.54}{0.88} & \msa{0.81}{0.46} & \msa{-0.09}{0.95} & \msa{1.11}{0.42} \\
+    Excess kurtosis & \msa{10.12}{2.59} & \msa{10.69}{2.97} & \msa{8.21}{3.68} & \msa{6.78}{1.29} \\
+    Minimum & \msa{-0.2509}{0.0482} & \msa{-0.2401}{0.0302} & \msa{-0.2821}{0.0737} & \msa{-0.1979}{0.0157} \\
+    Maximum & \msa{0.3742}{0.0535} & \msa{0.3892}{0.0618} & \msa{0.3181}{0.0776} & \msa{0.3562}{0.0312} \\
+    1 \% quantile & \msa{-0.1055}{0.0304} & \msa{-0.1186}{0.0200} & \msa{-0.1114}{0.0101} & \msa{-0.0882}{0.0114} \\
+    99 \% quantile & \msa{0.1185}{0.0258} & \msa{0.1273}{0.0177} & \msa{0.1081}{0.0202} & \msa{0.1236}{0.0133} \\
+    $P(|x| > 0.05)$ & \msa{0.104}{0.016} & \msa{0.119}{0.019} & \msa{0.109}{0.008} & \msa{0.112}{0.021} \\
+    $P(|x| > 0.10)$ & \msa{0.027}{0.006} & \msa{0.032}{0.005} & \msa{0.025}{0.005} & \msa{0.025}{0.007} \\
+    \midrule
+    $C_2(1)$ & \msa{0.263}{0.201} & \msa{0.215}{0.049} & \msa{0.281}{0.130} & \msa{0.234}{0.122} \\
+    $C_2(2)$ & \msa{0.170}{0.113} & \msa{0.183}{0.126} & \msa{0.201}{0.092} & \msa{0.124}{0.127} \\
+    $C_2(5)$ & \msa{0.167}{0.112} & \msa{0.239}{0.132} & \msa{0.129}{0.041} & \msa{0.081}{0.110} \\
+    $C_2(10)$ & \msa{0.144}{0.103} & \msa{0.129}{0.068} & \msa{0.125}{0.075} & \msa{0.067}{0.070} \\
+    \bottomrule
+  \end{tabular*}
+  \caption{Distributional statistics and autocorrelation of generated daily TTF log returns on the test split, the combinations without the SR term, configuration 8}
+  \label{tab:loss_c9_nosr}
+\end{table}
+
+The seed ranges of the maximum of all four branches containing $\mathrm{SR}^{*}$ are separable from the \ms{0.3742}{0.0535} of the ForGAN baseline, and all four are lower. The maximum is \ms{0.2154}{0.0369} for the $\mathrm{SR}^{*}$ \& $\mathrm{MSE}$
+branch, and the other three are within \num{0.012} of it. The seed ranges of the ForGAN baseline and of the $\mathrm{MSE}$, $\mathrm{PnL}^{*}_{a}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{STD}$ branches contain the \num{0.3229} of the test split. The maximum of the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ branch is \ms{0.3892}{0.0618}, above the test split. 
+The seed ranges of the \SI{99}{\percent} quantile of all four branches containing $\mathrm{SR}^{*}$ and of the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{STD}$ branch contain the \num{0.0903} of the test split, while that of the ForGAN baseline lies above it. 
+The seed ranges of the \SI{1}{\percent} quantile of the ForGAN baseline and of the $\mathrm{PnL}^{*}_{a}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ branches contain the \num{-0.1305} of the test split.
+All ten branches lie below the minimum of the test split, \num{-0.1749}. The closest is the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ \& $\mathrm{STD}$ branch at \ms{-0.1979}{0.0157}.
+
+The seed ranges of the $\mathrm{PnL}^{*}_{a}$ branch contain the test split on the skewness, the maximum and the \SI{1}{\percent} quantile, as does the ForGAN baseline. $\mathrm{SR}^{*}$ compresses the largest generated return, which brings the \SI{99}{\percent} quantile closer to the test split but moves the skewness and the maximum away.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}rrrr}
+    \toprule
+     & ForGAN & PnL$^*_a$ \& SR$^*$ & SR$^*$ \& MSE & PnL$^*_a$ \& MSE \& SR$^*$ \\
+    \midrule
+    Mean & \msa{0.0019}{0.0034} & \msa{0.0012}{0.0020} & \msa{0.0007}{0.0011} & \msa{0.0007}{0.0014} \\
+    Standard deviation & \msa{0.0369}{0.0036} & \msa{0.0351}{0.0031} & \msa{0.0331}{0.0034} & \msa{0.0338}{0.0034} \\
+    Skewness & \msa{0.54}{0.88} & \msa{-0.64}{0.20} & \msa{-0.57}{0.20} & \msa{-0.60}{0.24} \\
+    Excess kurtosis & \msa{10.12}{2.59} & \msa{8.03}{2.55} & \msa{8.02}{2.42} & \msa{7.86}{2.93} \\
+    Minimum & \msa{-0.2509}{0.0482} & \msa{-0.2638}{0.0303} & \msa{-0.2553}{0.0310} & \msa{-0.2570}{0.0406} \\
+    Maximum & \msa{0.3742}{0.0535} & \msa{0.2207}{0.0322} & \msa{0.2154}{0.0369} & \msa{0.2231}{0.0509} \\
+    1 \% quantile & \msa{-0.1055}{0.0304} & \msa{-0.0938}{0.0122} & \msa{-0.0889}{0.0153} & \msa{-0.0910}{0.0147} \\
+    99 \% quantile & \msa{0.1185}{0.0258} & \msa{0.0959}{0.0122} & \msa{0.0921}{0.0089} & \msa{0.0930}{0.0088} \\
+    $P(|x| > 0.05)$ & \msa{0.104}{0.016} & \msa{0.108}{0.021} & \msa{0.094}{0.022} & \msa{0.100}{0.023} \\
+    $P(|x| > 0.10)$ & \msa{0.027}{0.006} & \msa{0.017}{0.006} & \msa{0.016}{0.004} & \msa{0.016}{0.005} \\
+    \midrule
+    $C_2(1)$ & \msa{0.263}{0.201} & \msa{0.223}{0.089} & \msa{0.202}{0.059} & \msa{0.225}{0.103} \\
+    $C_2(2)$ & \msa{0.170}{0.113} & \msa{0.382}{0.146} & \msa{0.274}{0.111} & \msa{0.345}{0.134} \\
+    $C_2(5)$ & \msa{0.167}{0.112} & \msa{0.163}{0.075} & \msa{0.153}{0.025} & \msa{0.147}{0.036} \\
+    $C_2(10)$ & \msa{0.144}{0.103} & \msa{0.056}{0.047} & \msa{0.076}{0.061} & \msa{0.057}{0.038} \\
+    \bottomrule
+  \end{tabular*}
+  \caption{Distributional statistics and autocorrelation of generated daily TTF log returns on the test split, the combinations with the SR term, configuration 8}
+  \label{tab:loss_c9_sr}
+\end{table}
+
+\textbf{Volatility clustering.} None of the ten branches reproduces the decay of $C_2(\tau)$ observed in the test split. $C_2(1)$ ranges from \ms{0.165}{0.122} to \ms{0.281}{0.130} across the ten branches, against the $0.289$ of the test split. The seed spreads are of the same order as the means, so the branches are not separable. The four branches containing $\mathrm{SR}^{*}$ rise from $C_2(1)$ between
+\num{0.202} and \num{0.229} to $C_2(2)$ between \num{0.274} and \num{0.382}, where the test split falls to $0.061$. The seed spreads of the four branches at $\tau=2$ are between \num{0.111} and \num{0.156}, so they do not separate from the other branches.
+
+The $\mathrm{SR}^{*}$, $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{SR}^{*}$,
+$\mathrm{SR}^{*}$ \& $\mathrm{MSE}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ \& $\mathrm{SR}^{*}$ are the only branches separable from ForGAN on the skewness and the maximum. The $\mathrm{PnL}^{*}_{a}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ branches come closest to the test split overall. Their seed ranges contain the test split values on the skewness, the excess kurtosis, the standard deviation and the \SI{1}{\percent} quantile. Overall, no economics-driven term separably improves the ForGAN baseline. As described in Sec.~\ref{sec:training-config}, the economics-driven terms of \textcite{vuleticFinGANForecastingClassifying2024} target the directional accuracy of the forecast, which is not the criterion used here. The effect of the cost function on the option prices is examined in Sec.~\ref{sec:option-prices}. 
+
+% - [ ] Close: the cost function does not affect volatility clustering,
+%       consistent with Sec. 5.3 and Sec. 5.4
+
+
+% ## 5.5 Effect of the Cost Function Terms — TODO
+%
+% Tables 12 (single terms), 13 (without SR), 14 (with SR).
+% Configuration 8 throughout, ForGAN repeated as the reference column.
+% Test split reference: skew 0.92, kurtosis 13.27, SD 0.0404,
+% max 0.3229, min -0.1749, P(0.05) 0.130, P(0.10) 0.026,
+% q99 0.0903, q01 -0.1305.
+%

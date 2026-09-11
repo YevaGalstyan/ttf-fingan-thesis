@@ -37,7 +37,7 @@ Additionally, the excess-return step requires a benchmark that leaves a meaningf
 
 As a substitute, the second nearby contract was considered. However, the difference between the first and second nearby returns is a calendar spread return, as described in Sec.~\ref{sec:futures}. A model that is trained on it would learn how the gap between two contracts moves, not how the gas price itself moves. Option payoffs depend on the price level at expiry, so a model trained on spread returns could not be used to price options.
 
-Therefore, the dataset was constructed from daily logarithmic returns of the front-month settlement price. Returns are approximately stationary and therefore comparable across the sample period. Additionally, log returns are additive across time and allow price levels to be recovered exactly from simulated returns. The latter is required for the Monte Carlo procedure
+The dataset was constructed from daily logarithmic returns of the front-month settlement price. Returns are approximately stationary and therefore comparable across the sample period. Additionally, log returns are additive across time and allow price levels to be recovered exactly from simulated returns. The latter is required for the Monte Carlo procedure
 in Sec.~\ref{sec:pricing-setup}.
 
 \begin{equation}\label{eq:logreturn}

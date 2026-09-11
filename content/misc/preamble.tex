@@ -40,6 +40,7 @@
 \usepackage[hypcap=true,labelformat=simple]{subcaption}
 \renewcommand{\thesubfigure}{(\alph{subfigure})}
 \usepackage{booktabs} 
+\usepackage{longtable}
 
 % Layout corrections
 \widowpenalty = 10000 
@@ -58,3 +59,5 @@
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
 \newcommand{\ms}[2]{$#1 \pm #2$}         
 \newcommand{\msa}[2]{$#1 {\scriptstyle\pm} #2$}
+\usepackage{etoolbox}
+\pretocmd{\section}{\clearpage}{}{}

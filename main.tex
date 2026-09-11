@@ -8,21 +8,17 @@
 
 %%  Front matter
 \input{content/misc/titlepage}
-\clearpage
 
 \lhead{}
 \pagenumbering{Roman}
 \setcounter{page}{1}
 
-\clearpage
 \input{content/misc/abstract}
-\clearpage
 
 \tableofcontents
-\clearpage
 \listoffigures
 \listoftables
-\clearpage
+\input{content/misc/symbol_dict}
 
 %%  Main matter
 \cleardoublepage
@@ -30,39 +26,29 @@
 \setcounter{page}{1}
 \lhead{\nouppercase{\leftmark}}
 
-\clearpage
 \input{content/01_introduction}
 
-\clearpage
 \input{content/02_financial-fundamentals/index}
 
-\clearpage
 \input{content/03_ml-fundamentals/index}
 
-\clearpage
 \input{content/04_methodology/index}
 
-\clearpage
 \input{content/05_experiments/index}
 
-\clearpage
 \input{content/06_discussion}
 
-\clearpage
 \input{content/07_conclusion}
 
 %%  Bibliography
-\clearpage
 \printbibliography
 
 %%  Appendix
 \appendix
 \input{content/appendix/index}
 
-\clearpage
 \input{content/misc/ai_documentation}
 
-\clearpage
 \input{content/misc/declaration}
 
 \end{document}

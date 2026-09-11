@@ -12,17 +12,13 @@ The GAN framework is flexible in the sense of the cost functions applied to $G$ 
 \begin{equation}
 J^{(G)}(\theta_d, \theta_g) = -J^{(D)}(\theta_d, \theta_g).
 \end{equation}
-
 The cost function of $D$ is defined as a standard cross-entropy (Sec.~\ref{sec:nn-training})
 \begin{equation}
 J^{(D)}\bigl(\theta_d, \theta_g\bigr)
 = -\frac{1}{2}\,\mathbb{E}_{x \sim p_{\text{data}}} \log D(x)
   - \frac{1}{2}\,\mathbb{E}_{z} \log\bigl(1 - D\bigl(G(z)\bigr)\bigr).
 \end{equation}
-
-Learning the zero-sum game minimizes the Jensen-Shannon divergence between $p_{\mathrm{data}}$ and $p_g$. Convergence holds only if both players are updated in function space. In function space $D$ and $G$ are updated freely among all possible functions. In practice, $D$ and $G$ are neural networks and updated in parameter space. In parameter space the reachable functions are limited to those the network architecture can represent. $D$ minimizes a cross-entropy while $G$ maximizes the same quantity. Generated samples are rejected with high confidence at the start of training, and the gradient of $G$ vanishes at the point at which it performs worst \parencite{goodfellowNIPS2016Tutorial2017}.
-
-Therefore, the cost function of $G$ is constructed by flipping the target of the cross-entropy.
+Learning the zero-sum game minimizes the Jensen-Shannon divergence between $p_{\mathrm{data}}$ and $p_g$. Convergence holds only if both players are updated in function space. In function space $D$ and $G$ are updated freely among all possible functions. In practice, $D$ and $G$ are neural networks and updated in parameter space. In parameter space the reachable functions are limited to those the network architecture can represent. $D$ minimizes a cross-entropy while $G$ maximizes the same quantity. Generated samples are rejected with high confidence at the start of training, and the gradient of $G$ vanishes at the point at which it performs worst \parencite{goodfellowNIPS2016Tutorial2017}. Therefore, the cost function of $G$ is constructed by flipping the target of the cross-entropy.
 
 \begin{equation}
 J^{(G)}(\theta_d, \theta_g)
@@ -30,23 +26,19 @@ J^{(G)}(\theta_d, \theta_g)
   \bigl[\log[D(G(z;\theta_g);\theta_d)]\bigr].
   \label{eq:generator-cross}
 \end{equation}
-
-The cost function of $D$ and $G$ do not sum to zero anymore, hence the game is no longer zero-sum. Alternative cost functions have been introduced over time.
-
-Fig.~\ref{fig:standard-gan} is the visualization of a standard GAN workflow adapted from \textcite{vuleticFinGANForecastingClassifying2024}.
+The cost function of $D$ and $G$ do not sum to zero anymore, hence the game is no longer zero-sum. Alternative cost functions have been introduced over time. Fig.~\ref{fig:standard-gan} is the visualization of a standard GAN workflow adapted from \textcite{vuleticFinGANForecastingClassifying2024}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/basic_gan.pdf}
+    \includegraphics[width=0.75\textwidth]{figures/basic_gan.pdf}
     \caption{Structure of a standard GAN}
     \label{fig:standard-gan}
 \end{figure}
-
 GANs are trained by updating the two networks in turn. At each step, a minibatch of samples and noise vectors are drawn from $p_{\mathrm{data}}$ and $p_z$ respectively. $D$ is updated with respect to $\theta_d$ while $\theta_g$ is fixed. $G$ is updated with respect to $\theta_g$ while $\theta_d$ is fixed. $D$ is commonly trained $k$ times for every update of $G$, although \textcite{goodfellowNIPS2016Tutorial2017} argues that $k=1$ is sufficient. $k$ is defined as an independent training parameter. The update cycle is shown in Fig.~\ref{fig:gan-update-cycle}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/gan_update_cycle.pdf}
+    \includegraphics[width=\textwidth]{figures/gan_update_cycle.pdf}
     \caption{Alternating update cycle of a GAN. One $D$ update is performed per $G$ update ($k=1$).}
     \label{fig:gan-update-cycle}
 \end{figure}
@@ -96,7 +88,6 @@ ForGAN adds a recurrent layer (Sec.~\ref{sec:rnn}) to $G$ and $D$. The layer pro
   \label{fig:forgan_architecture}
 \end{figure}
 
-\clearpage
 \subsubsection{Fin-GAN}\label{sec:fin-gan}
 Fin-GAN was introduced as an extension of ForGAN \parencite{vuleticFinGANForecastingClassifying2024}. It focuses on the probabilistic forecasting of financial time series, specifically equity returns. The ForGAN architecture and the cost function of $D$ are unchanged. LSTM is chosen as the recurrent layer. 
 

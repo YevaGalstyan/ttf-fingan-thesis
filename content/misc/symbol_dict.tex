@@ -1,0 +1,74 @@
+\section*{List of Symbols}\label{sec:symbols}
+\addcontentsline{toc}{section}{List of Symbols}
+
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{\fill}
+
+\begin{longtable}{@{}ll@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+\endhead
+
+\multicolumn{2}{@{}l}{\textit{Financial fundamentals}} \\
+$F_t$ & Futures settlement price on trading day $t$ \\
+$F_T$ & Futures settlement price at expiry \\
+$K$ & Strike price \\
+$T$ & Time to maturity \\
+$r$ & Risk-free rate \\
+$r_f$ & Risk-free rate in the Sharpe ratio \\
+$\sigma$ & Volatility of the futures price \\
+$\mu$ & Mean return over a period \\
+$C$, $P$ & European call and put price \\
+$\Phi$ & Cumulative distribution function of the standard normal \\
+$d_1$, $d_2$ & Arguments of $\Phi$ in Black-76 \\
+$\hat{\mathbb{E}}$ & Expectation in a risk-neutral world \\
+$P_t$ & Front-month settlement price on trading day $t$ \\
+$x_t$ & Log return on trading day $t$ \\
+$C_2(\tau)$ & Autocorrelation of squared returns at lag $\tau$ \\
+$P(|x| > u)$ & Fraction of returns exceeding $u$ in absolute value \\
+\addlinespace
+
+\multicolumn{2}{@{}l}{\textit{Neural networks and GANs}} \\
+$\theta$, $\theta_g$, $\theta_d$ & Learnable parameters \\
+$d$ & Number of parameters in $\theta$ \\
+$G$, $D$ & Generator and discriminator \\
+$z$ & Noise vector \\
+$p_z$, $p_{\mathrm{data}}$, $p_g$ & Noise, data and generated distributions \\
+$J^{(G)}$, $J^{(D)}$ & Cost functions of $G$ and $D$ \\
+$k$ & Discriminator updates per generator update \\
+$c$ & Condition vector \\
+$W$, $b$ & Weight matrix and bias vector \\
+\addlinespace
+
+\multicolumn{2}{@{}l}{\textit{Fin-GAN cost function}} \\
+$\hat{x}_i$ & Forecast of the realized value $x_i$ \\
+$n_{\mathrm{batch}}$ & Number of forecasts in a minibatch \\
+$p_i$, $\bar{p}$ & $\mathrm{PnL}^{*}_{a}$ of forecast $i$, and its minibatch mean \\
+$\mathrm{PnL}^{*}_{a}$ & Smooth profit and loss term \\
+$k_{\tanh}$ & Sharpness of the $\tanh$ approximation \\
+$\mathrm{MSE}$ & Mean squared error term \\
+$\mathrm{SR}^{*}$ & Sharpe ratio term of the cost function \\
+$\mathrm{STD}$ & Standard deviation term \\
+$\alpha,\beta,\gamma,\delta$ & Gradient-matching weights \\
+$\epsilon$ & Mode collapse threshold \\
+$\mathrm{wPnL}$, $\mathrm{SR}_w$ & Weighted strategy profit and Sharpe ratio \\
+\addlinespace
+
+\multicolumn{2}{@{}l}{\textit{Experimental setup and evaluation}} \\
+$l$ & Condition window length \\
+$N$ & Noise dimension \\
+$R_G$, $R_D$ & Generator and discriminator hidden size \\
+$n_{\mathrm{grad}}$, $n_{\mathrm{epochs}}$ & Gradient-matching and training epochs \\
+$n_{\mathrm{cond}}$ & Rows in the window matrix \\
+$B$ & Draws per condition \\
+$\hat{X}$ & Matrix of generated draws \\
+$\hat{x}_{\mathrm{path}}$, $\hat{x}_{\mathrm{pool}}$ & Path and pooled evaluation sets \\
+$m$ & Mean set of point forecasts \\
+\addlinespace
+
+\multicolumn{2}{@{}l}{\textit{Option pricing}} \\
+$h$ & Trading days from the valuation date to expiry \\
+$M$ & Simulated paths per valuation date \\
+\bottomrule
+\end{longtable}

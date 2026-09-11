@@ -14,14 +14,14 @@ The settlement price at expiry is unknown when the option is bought. A risk-neut
 Money available today is worth more than money available in the future, since money held today can be invested to earn a risk-free rate. Discounting is the process of converting a future value to its present value by applying the risk-free rate. The multiplier $e^{-r T}$ is the discount factor, where $r$ is the risk-free rate and $T$ is the time to maturity. The price of a European call is its expected payoff in a risk-neutral world, discounted at the risk-free rate
 
 \begin{equation}
-    c = e^{-r T} \hat{\mathbb{E}}[\max(F_T - K, 0)],
+    C = e^{-r T} \hat{\mathbb{E}}[\max(F_T - K, 0)],
     \label{eq:price-call}
 \end{equation}
 
 and the price of a European put is 
 
 \begin{equation}
-    p = e^{-r T} \hat{\mathbb{E}}[\max(K - F_T, 0)]
+    P = e^{-r T} \hat{\mathbb{E}}[\max(K - F_T, 0)]
     \label{eq:price-put}
 \end{equation}
 

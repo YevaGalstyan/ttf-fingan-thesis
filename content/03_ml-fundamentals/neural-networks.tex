@@ -30,14 +30,11 @@ The gradient $\nabla_{\theta}J$ is the vector of partial derivatives of $J$ with
 \theta' = \theta - \eta \nabla_{\theta}J,
 \end{equation}
 where $\eta$ is the step size, called the learning rate. The step is repeated until the cost stops decreasing. Backward propagation computes the gradient of $J$ with respect to $\theta$ by applying the chain rule to the composition in Eq.~\eqref{eq:nn-composition}.
-
 The norm of a vector is a measure of its length. The gradient norm measures the magnitude of $\nabla_{\theta}J$ and is defined as
 \begin{equation}
-\|\nabla_{\theta}J\| = \sqrt{\sum_{i=1}^{m}\left(\frac{\partial J}{\partial \theta_i}\right)^2},
+\|\nabla_{\theta}J\| = \sqrt{\sum_{i=1}^{d}\left(\frac{\partial J}{\partial \theta_i}\right)^2},
 \end{equation}
-where $m$ is the number of parameters in $\theta$.
-
-Computing the gradient over the entire training data is computationally expensive. Instead, the training data is divided into subsets called minibatches. The gradient is computed, and the parameters are updated for each minibatch. The minibatches are drawn randomly, so each gradient is a noisy estimate of the gradient over the full training data. This is called stochastic gradient descent (SGD). One pass over the entire training data is called an epoch. The training data is shuffled at the start of each epoch, so that the minibatches differ between epochs.
+where $d$ is the number of parameters in $\theta$. Computing the gradient over the entire training data is computationally expensive. Instead, the training data is divided into subsets called minibatches. The gradient is computed, and the parameters are updated for each minibatch. The minibatches are drawn randomly, so each gradient is a noisy estimate of the gradient over the full training data. This is called stochastic gradient descent (SGD). One pass over the entire training data is called an epoch. The training data is shuffled at the start of each epoch, so that the minibatches differ between epochs.
 
 The cost function of a neural network is generally non-convex. A function is convex if it has a single global minimum, while non-convex functions have multiple local minima. Gradient descent may converge to a local minimum, which may not be the global minimum. Neural networks are trained with optimizers, variants of gradient descent that adapt the step size during the training process. RMSProp is an example of such an optimizer. It divides the learning rate by a running average of the squared partial derivatives for each parameter. As a result, each parameter has its own effective learning rate. 
 
@@ -54,15 +51,11 @@ The capacity of a neural network is its ability to represent a wide range of fun
 
 \subsubsection{Recurrent Neural Networks and LSTM}\label{sec:rnn}
 
-Time series data is an ordered sequence: the position of each value in the sequence carries information. A dense layer has separate parameters for each input position. What a dense layer learns from one position does not transfer to other positions. A recurrent layer processes a sequence of values, using the same parameters $\theta$ for each position. A neural network consisting of recurrent layers is called a recurrent neural network. 
-
-Recurrent layers are updated sequentially, one step at a time. At each step, a recurrent layer takes the current input and a hidden state carried from the previous step to produce the output and the next hidden state
+Time series data is an ordered sequence: the position of each value in the sequence carries information. A dense layer has separate parameters for each input position. What a dense layer learns from one position does not transfer to other positions. A recurrent layer processes a sequence of values, using the same parameters $\theta$ for each position. A neural network consisting of recurrent layers is called a recurrent neural network. Recurrent layers are updated sequentially, one step at a time. At each step, a recurrent layer takes the current input and a hidden state carried from the previous step to produce the output and the next hidden state
 \begin{equation}
 h^{(t)} = f\!\left(h^{(t-1)}, x^{(t)}; \theta\right),
 \end{equation}
-where $h^{(t)}$ is the hidden state at step $t$ and $x^{(t)}$ is the input at step $t$. The final hidden state $h^{(T)}$ is a fixed-length vector representation of the entire sequence, where $T$ is the length of the sequence.
-
-The dimension of the hidden state is called the hidden size of the recurrent layer and determines the capacity of the layer. The hidden size is a hyperparameter that is set before training.
+where $h^{(t)}$ is the hidden state at step $t$ and $x^{(t)}$ is the input at step $t$. The final hidden state is a fixed-length vector representation of the entire sequence, where $T$ is the length of the sequence. The dimension of the hidden state is called the hidden size of the recurrent layer and determines the capacity of the layer. The hidden size is a hyperparameter that is set before training.
 
 In a recurrent layer, the gradient $\nabla_{\theta}J$ is propagated backward through every step of the sequence. The same parameters $\theta$ are applied at each step, so $\nabla_{\theta}J$ is multiplied by the same factor at each step. As a result, $\nabla_{\theta}J$ can grow without bound or vanish to zero over long sequences. This is commonly called the  vanishing and exploding gradient problem.
 

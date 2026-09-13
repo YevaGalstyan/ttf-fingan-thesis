@@ -1,1 +1,43 @@
 \subsection{Benchmark Models}\label{sec:benchmarks}
+The generated option prices are compared against two benchmark models, a geometric Brownian motion and a historical simulation of the realized returns. Both benchmark models replaced $G$ with a simpler model of the returns and were priced through the procedure shown in Fig.~\ref{fig:pricing-pipeline} without change. The benchmarks were run with a single seed each and the results do not carry a seed spread.
+
+Geometric Brownian motion is the process underlying Black-76, introduced in Sec.~\ref{sec:implied-vol}. Under geometric Brownian motion the return over a short period is normally distributed and returns over different periods are independent. The price at a future date is lognormally distributed \parencite[332]{hullOptionsFuturesOther2022}. The futures price is not expected to grow, so the log return from the valuation date to expiry is normally distributed
+\begin{equation}
+    \ln \frac{F_T}{F_t} \sim
+    \mathcal{N}\!\left(-\tfrac{1}{2}\sigma^{2}T, \; \sigma^{2}T\right),
+    \label{eq:gbm-horizon}
+\end{equation}
+where $-\frac{1}{2}\sigma^2 T$ and $\sigma^2 T$ are the mean and variance of the log return. $-\frac{1}{2}\sigma^2 T$ follows from the risk-neutral condition $\hat{\mathbb{E}}[F_T] = F_t$ of Sec.~\ref{sec:options} \parencite[328]{hullOptionsFuturesOther2022}. Each path of the geometric Brownian motion was simulated as $h$ returns over the trading days to expiry, 
+\begin{equation}
+    \hat{x}_k = -\tfrac{1}{2}\sigma^{2}\Delta
+          + \sigma\sqrt{\Delta}\,\varepsilon_k,
+    \qquad
+    \varepsilon_k \sim \mathcal{N}(0,1),
+    \label{eq:gbm-discrete}
+\end{equation}
+where $\Delta = T / h$ is the time step and $\varepsilon_k$ are independent standard normal random variables. The returns are drawn independently, so the variance of the sum of $h$ returns is $h \sigma^2 \Delta = \sigma^2 T$.
+
+Geometric Brownian motion reproduces none of the stylized facts of Sec.~\ref{sec:stylized-facts}. The returns are normally distributed, so the simulated distribution does not reproduce heavy tails or asymmetry. The returns are also drawn independently, so there is no volatility clustering. A single $\sigma$ applies to every strike, so the volatility smile of the simulated prices is flat.
+
+Two choices of $\sigma$ are considered. The first is the implied volatility published by the exchange at the listed strike closest to the settlement price on the valuation date. The published $\sigma$ is obtained by inverting Black-76 at that strike, so pricing the same strike returns the market price. The second choice is the annualized realized volatility of the front-month returns over the preceding \num{60} trading days. The realized volatility is computed from the return series alone, without option prices. The realized volatility lies below the implied volatility on \num{16} of the \num{20} valuation dates. The results of Sec.~\ref{sec:option-prices} are reported with the implied volatility.
+
+The historical simulation draws paths of $h$ returns by resampling the observed returns, a procedure known as the bootstrap \parencite{efronBootstrapMethodsAnother1979}. The returns are drawn from the training split of Sec.~\ref{sec:data-pipeline}, so no test data enters the benchmark. Two modes of the bootstrap are considered. In the $\mathrm{iid}$ mode, each of the $h$ returns is drawn independently with replacement, so the same observed return can enter a path more than once. No distributional assumption is made, since the returns are drawn from the observed distribution. In the block mode, each path is a block of $h$ consecutive returns \parencite{kunschJackknifeBootstrapGeneral1989}. The order of the observed series is preserved within each block, so the volatility clustering of Sec.~\ref{sec:stylized-facts} is present as well. The training split contains \num{3178}\footnote{A block of $h$ consecutive returns can start at $3197 - h + 1$ positions, where \num{3197} is the number of returns in the training split.} distinct blocks, so the \num{20000} paths reuse each block multiple times. The paths are not independent, so the Monte Carlo standard error of Sec.~\ref{sec:pricing-setup} is too small in the block mode.
+
+Table~\ref{tab:benchmark-properties} summarizes the stylized facts reproduced by each model. $G$ is the only model conditioned on the returns preceding the valuation date.
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Model & Stylized facts \\
+    \midrule
+    Geometric Brownian motion & none \\
+    Bootstrap, iid            & heavy tails, asymmetry \\
+    Bootstrap, block          & heavy tails, asymmetry, volatility clustering \\
+    $G$                       & heavy tails, asymmetry, volatility clustering \\
+    \bottomrule
+  \end{tabular}
+  \caption{Stylized facts reproduced by the benchmarks and $G$}
+  \label{tab:benchmark-properties}
+\end{table}
+
+Further benchmark models are considered and discussed in Chapter~\ref{sec:discussion}. The prices of the benchmarks and of $G$ are reported and compared in Sec.~\ref{sec:option-prices}.

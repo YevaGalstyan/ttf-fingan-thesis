@@ -1,16 +1,18 @@
  \subsection{Implied Volatility}\label{sec:implied-vol}
-As described in Sec.~\ref{sec:options}, the price of an option depends on the distribution of $F_T$ in the risk-neutral world. \textcite{blackPricingCommodityContracts1976} gives a closed-form solution for Eq.~\eqref{eq:price-call} and Eq.~\eqref{eq:price-put} under the assumption that $F_T$ is lognormal. The result is known as the Black-76 model. The model further assumes that $\sigma$ and $r$ are constant over the life of
-the option and that the option is European. 
+As described in Sec.~\ref{sec:options}, the price of an option depends on the distribution of $F_T$ in the risk-neutral world. \textcite{blackPricingCommodityContracts1976} gives a closed-form solution for Eq.~\eqref{eq:price-call} and Eq.~\eqref{eq:price-put} under the assumption that $F_T$ is lognormal, which corresponds to a price process known as geometric Brownian motion. The result is known as the Black-76 model. The model further assumes that $\sigma$ and $r$ are constant over the life of the option and that the option is European.  
 
-A random variable $X$ is normally distributed with mean $\mu$ and standard deviation $\sigma$ if its probability density is
+The lognormal distribution is defined through the normal distribution $\mathcal{N}(\mu, \sigma^2)$, where $\mu$ is the mean and $\sigma^2$ is the variance. A random variable $X$ is normally distributed, $X \sim \mathcal{N}(\mu, \sigma^2)$, if its probability density is
 \begin{equation}
 f(x) = \frac{1}{\sigma \sqrt{2\pi}}
-       \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
+       \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
 \end{equation}
-
-The distribution is symmetric around $\mu$ and is fully described by $\mu$ and $\sigma$. For the standard normal distribution $\mu = 0$ and $\sigma = 1$. A random variable $X$ is lognormally distributed if $\ln X$ is normally distributed. 
-
-Under the lognormal assumption, the European call and put prices are given by
+where $x$ is a value of the random variable $X$. The distribution is symmetric around $\mu$ and is fully described by $\mu$ and $\sigma$. For the standard normal distribution $\mu = 0$ and $\sigma = 1$. The cumulative distribution function gives the probability that the variable takes a value less than or equal to a given threshold. For the standard normal distribution, the cumulative distribution function is 
+\begin{equation}
+    \Phi(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}}
+              \exp\!\left(-\frac{u^{2}}{2}\right) \, du.
+    \label{eq:std-normal-cdf}
+\end{equation}
+A random variable $X$ is lognormally distributed if $\ln X$ is normally distributed. Under the lognormal assumption, the European call and put prices are given by
 \begin{equation}
 C = e^{-rT} \left[ F_t \Phi(d_1) - K \Phi(d_2) \right],
 \label{eq:black-76-call}
@@ -20,7 +22,7 @@ P = e^{-rT} \left[ K \Phi(-d_2) - F_t \Phi(-d_1) \right],
 \label{eq:black-76-put}
 \end{equation}
 
-where $\Phi$ is the cumulative distribution function of the standard normal distribution, $F_t$ is the current futures price, $K$ is the strike price, $T$ is the time to maturity, $r$ is the risk-free rate, and $\sigma$ is the volatility of the futures price, as defined in Sec.~\ref{sec:financial-markets}. The Eqs.~\eqref{eq:black-76-call} and~\eqref{eq:black-76-put} do not contain a growth term for $F_t$, since the futures price is not expected to grow in a risk-neutral world (Sec.~\ref{sec:options}). $d_1$ and $d_2$ are given by
+where $F_t$ is the current futures price, $K$ is the strike price, $T$ is the time to maturity, $r$ is the risk-free rate, and $\sigma$ is the volatility of the futures price, as defined in Sec.~\ref{sec:financial-markets}. The Eqs.~\eqref{eq:black-76-call} and~\eqref{eq:black-76-put} do not contain a growth term for $F_t$, since the futures price is not expected to grow in a risk-neutral world (Sec.~\ref{sec:options}). $d_1$ and $d_2$ are given by
 
 \begin{equation}
 d_1 = \frac{\ln(F_t/K) + \sigma^2 T/2}{\sigma \sqrt{T}}, \qquad

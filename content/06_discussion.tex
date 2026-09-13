@@ -1,4 +1,4 @@
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
 % \todo{Limitations: a two-return construction was possible from opening and settlement prices but not pursued — returns would need aggregating back to daily for the Monte Carlo, and would mix a traded price with an exchange mark.}
 
 % # Ch5 — Fu et al. (2019) as external support for the distributional failure
@@ -132,3 +132,7 @@
 % $\tau=1$ and overshoots at $\tau=2,5,10$, so whether the multi-day
 % tails end up too fat or too thin depends on the rollout of
 % Sec.~\ref{sec:option-pricing} rather than on the daily statistics.
+
+% A GARCH benchmark would condition the simulated volatility on the state at the valuation date, which neither bootstrap does. Whether the generated prices improve on a conditioned benchmark is left open.
+
+% GARCH with Student-\emph{t} innovations is the standard econometric alternative. It was not included, since fitting reintroduces the specification choices the bootstrap avoids, and symmetric innovations would not add a property the block bootstrap lacks.

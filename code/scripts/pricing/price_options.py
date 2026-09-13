@@ -5,11 +5,15 @@ For each valuation date in pricing_dates.csv and each seed, runs the
 recursive rollout, applies the martingale correction, prices every listed
 strike in the moneyness band, and inverts to implied volatility.
 
+The rollout uses antithetic noise pairs by default (see rollout.py), so M
+paths give roughly the Monte Carlo precision of a larger independent
+sample.
+
 Run build_pricing_dates.py and build_options_panel.py first.
 
 Usage:
     python price_options.py c9
-    python price_options.py c9 --M 10000 --seeds 0 1 2 3 4
+    python price_options.py c9 --M 20000 --seeds 0 1 2 3 4
 """
 
 import argparse
@@ -51,7 +55,7 @@ def main():
     p.add_argument("config", choices=CONFIGS.keys())
     p.add_argument("--loss", default="ForGAN")
     p.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2, 3, 4])
-    p.add_argument("--M", type=int, default=10_000)
+    p.add_argument("--M", type=int, default=20_000)
     args = p.parse_args()
 
     dates, prices, returns = load_series()

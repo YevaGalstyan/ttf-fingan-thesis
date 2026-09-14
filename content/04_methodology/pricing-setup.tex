@@ -11,7 +11,7 @@ The procedure is referred to as a rollout. The rollout was initialized with the 
   \label{fig:rollout-window}
 \end{figure}
 
-The realized returns were not used after initialization, since the returns after the valuation date are not available when the option is priced. As a result, after $l$ recursive steps, $G$ operates outside the regime it was trained on. Deviations of the generated returns from the realized distribution accumulate along the path.
+The realized returns were not used after initialization, since the returns after the valuation date are not available when the option is priced. As a result, after $l$ recursive steps, $G$ operates outside the regime it was trained on. Deviations of the generated returns from the realized distribution may accumulate along the path.
 
 The generated returns were applied in sequence to the settlement price on the valuation date to yield the simulated settlement price at expiry
 \begin{equation}

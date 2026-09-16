@@ -1,1 +1,26 @@
-\section{Conclusion and Outlook}
+\section{Conclusion and Outlook}\label{sec:conclusion}
+
+
+% ## PART 3 — WHAT WOULD HAVE TO CHANGE
+%
+% ### Condition on volatility, not only on returns
+% - [ ] Append a realized volatility measure to the condition vector,
+%       for example the rolling standard deviation of the last l
+%       returns
+% - [ ] Structurally identical to appending any other feature, so the
+%       implementation cost is low
+% - [ ] Both outcomes informative: clustering appears and the mechanism
+%       is demonstrated rather than asserted; it does not and the
+%       limitation is architectural
+% - [ ] Multi-seed, mean and seed spread. Single runs are not
+%       defensible — that is the lesson of Sec. 5.7
+%
+% ### A conditioned benchmark
+% - [ ] GARCH-t, to test whether the conditioning of G improves on a
+%       parametric model that also conditions on the state
+%
+% ### Selection on the target quantity
+% - [ ] Selecting on the option prices rather than on the generated
+%       returns. Costly, since every candidate must be priced, but the
+%       ranking reversal of Sec. 5.7 suggests the one-step statistics
+%       are not a sufficient proxy

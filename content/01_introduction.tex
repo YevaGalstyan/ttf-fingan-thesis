@@ -1,5 +1,13 @@
 \section{Introduction}\label{sec:introduction}
-\subsection{Context}
+Natural gas is used for heating residential and commercial buildings and serves as an input for industry and power generation. Changes in the gas price affect macroeconomic conditions and the costs of individual households and firms. Since transmission capacity cannot be expanded in the short term, supply responds slowly, and imbalances are resolved primarily through price changes. Consequently, the gas price is sensitive to weather conditions, industrial activity and the prices of coal and emission allowances. However, the strongest price movements follow supply disruptions. In 2025, the import dependency of the European Union for natural gas reached \SI{87.6}{\percent} \parencite{eurostatGasSupply2026}. This dependency exposes the European market to external supply shocks. The most severe of these shocks occurred in 2021 and 2022, when demand recovered after the pandemic and Russian pipeline flows declined. The disruption of 2026 is the most recent example.\footnote{Both disruptions are discussed in Sec.~\ref{sec:gas-markets}.} In Europe, natural gas is traded at virtual hubs, of which the Dutch Title Transfer Facility (TTF) is the most liquid \parencite{heatherEuropeanTradedGas2026}. Physical and financial market participants can use options on TTF futures to limit their exposure to price volatility. The price of an option depends on how the futures price may move until expiry \parencite[248]{hullOptionsFuturesOther2022}.
+
+This chapter introduces the problem addressed in this thesis. The difficulties of modeling TTF price movements are explained first. Generative adversarial networks (GANs) are then introduced as a data-driven approach to this problem. The research questions are stated next, followed by the contribution of the thesis. Finally, the structure of the remaining chapters is outlined.
+
+
+
 \subsection{Problem Statement and Motivation}
-\subsection{Goals}\label{sec:goals}
+\subsection{Research Question}\label{sec:research-question}
  \subsection{Own Contribution}
+
+\subsection{Structure}
+Chapter~\ref{sec:financial-fundamentals} introduces the European gas market, options and implied volatility. The machine learning fundamentals, the GAN frameworks and the related work follow in Chapter~\ref{sec:ml-fundamentals}. Chapter~\ref{sec:methodology} describes the data, the model architecture, the option pricing procedure and the benchmark models. Chapter~\ref{sec:exp} compares the statistical properties of the generated returns across the model configurations and cost function terms. The selected model is then used to price options. The sources of the deviation and the limitations are discussed in Chapter~\ref{sec:discussion}. Finally, Chapter~\ref{sec:conclusion} summarizes the results and gives an outlook.

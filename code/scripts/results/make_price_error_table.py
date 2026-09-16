@@ -1,6 +1,6 @@
 """
 Tables: implied volatility error of the generated prices and the benchmarks,
-overall, by moneyness, and by cost function branch.
+overall, by moneyness, and per seed against the excess kurtosis.
 
 Implements Eq. (strike-error) and Eq. (model-error) of Sec. 5.7:
 
@@ -10,6 +10,11 @@ Implements Eq. (strike-error) and Eq. (model-error) of Sec. 5.7:
 The signed error s is the same average without the absolute value. Strikes
 with no implied volatility are excluded from both, and the percentage of
 strikes inverted is reported alongside.
+
+The per-seed table pairs the excess kurtosis of the generated returns, as
+reported in Chapter 5, with the option pricing results of the same seed, to
+show whether the one-step statistic identifies the seed that diverges under
+the rollout.
 
 Values are reported as mean and seed spread, following the convention of
 Chapter 5.
@@ -24,7 +29,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import OUT_DIR
+from paths import OUT_DIR, RUNS
 
 # Label, file. The benchmarks of Sec. 4.4 and the model selected in Sec. 5.6.
 MODELS = [
@@ -34,12 +39,13 @@ MODELS = [
     ("G",                         "prices_ForGAN_c9.csv"),
 ]
 
-# Label, file. The cost function branches of Sec. 4.3, configuration 8.
+# Label, prices file, loss key in the ablation results. Configuration 8.
 BRANCHES = [
-    ("ForGAN",      "prices_ForGAN_c9.csv"),
-    ("PnL & MSE",   "prices_Pnl_Mse_c9.csv"),
-    ("PnL",         "prices_Pnl_c9.csv"),
+    ("ForGAN",     "prices_ForGAN_c9.csv",   "ForGAN"),
+    ("PnL",        "prices_Pnl_c9.csv",      "PnL"),
+    ("PnL & MSE",  "prices_Pnl_Mse_c9.csv",  "PnL_MSE"),
 ]
+CONFIG = "c9"
 
 # Column label, column, decimal places.
 COLS = [("e", "e", 3), ("s", "s", 3), ("inverted", "inverted", 1)]
@@ -82,13 +88,13 @@ def fmt(mean, sd, dp):
     return f"{mean:.{dp}f}" + (f" \u00b1 {sd:.{dp}f}" if sd is not None else "")
 
 
-def overall(frames, first="model"):
-    """One row per entry: e, s and the inversion rate over all strikes."""
+def overall(frames):
+    """One row per model: e, s and the inversion rate over all strikes."""
     rows = []
-    print(f"\n{first:28s}" + "".join(f"{c[0]:>18}" for c in COLS))
+    print(f"\n{'model':28s}" + "".join(f"{c[0]:>18}" for c in COLS))
     for label, df in frames:
         r = collect(df, [c[1] for c in COLS])
-        row, cells = {first: label}, []
+        row, cells = {"model": label}, []
         for _, key, dp in COLS:
             mean, sd = r[key]
             row[key] = round(mean, dp)
@@ -132,16 +138,41 @@ def by_generator(df):
     return pd.DataFrame(rows)
 
 
+def by_seed():
+    """One row per branch and seed: the excess kurtosis and the results."""
+    results = pd.concat([pd.read_csv(f)
+                         for f in sorted(RUNS.glob("results_*.csv"))])
+    results = results[results["config"] == CONFIG]
+
+    rows = []
+    header = ["branch", "seed", "kurtosis"] + [c[0] for c in COLS]
+    print("\n" + f"{header[0]:12s}{header[1]:>6}"
+          + "".join(f"{h:>12}" for h in header[2:]))
+
+    for label, filename, loss in BRANCHES:
+        kurt = results[results["loss"] == loss].set_index("seed")["pool_kurt"]
+        for seed, group in load(filename).groupby("seed"):
+            s = summarize(group)
+            row = {"branch": label, "seed": seed,
+                   "kurtosis": round(kurt[seed], 2)}
+            for _, key, dp in COLS:
+                row[key] = round(s[key], dp)
+            rows.append(row)
+            print(f"{label:12s}{seed:>6}{row['kurtosis']:>12.2f}"
+                  + "".join(f"{row[c[1]]:>12.{c[2]}f}" for c in COLS))
+
+    return pd.DataFrame(rows)
+
+
 def main():
     frames = [(label, load(f)) for label, f in MODELS]
-    branches = [(label, load(f)) for label, f in BRANCHES]
     generator = dict(frames)["G"]
 
     tables = [
-        (overall(frames),                      "table_price_error.csv"),
-        (by_moneyness(frames),                 "table_price_error_moneyness.csv"),
-        (by_generator(generator),              "table_price_error_generator.csv"),
-        (overall(branches, first="branch"),    "table_price_error_branches.csv"),
+        (overall(frames),         "table_price_error.csv"),
+        (by_moneyness(frames),    "table_price_error_moneyness.csv"),
+        (by_generator(generator), "table_price_error_generator.csv"),
+        (by_seed(),               "table_seed_kurtosis_error.csv"),
     ]
     print()
     for table, name in tables:

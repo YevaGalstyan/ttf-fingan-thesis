@@ -1,4 +1,4 @@
-\subsection{Generative Adversarial Networks}
+\subsection{Generative Adversarial Networks}\label{sec:gans}
 Generative modeling is an unsupervised learning approach (Sec.~\ref{sec:nn-training}). A generative model takes a set of training examples and learns the probability distribution that produced them. GANs are generative models first introduced by \textcite{goodfellowGenerativeAdversarialNetworks2014}.
 GANs have been particularly successful in image and video generation. They have also been used to create synthetic data, for training other machine learning models and to fill in gaps in missing data \parencite{goodfellowGenerativeAdversarialNetworks2020}.
 
@@ -46,20 +46,18 @@ GANs are trained by updating the two networks in turn. At each step, a minibatch
 As stated previously, convergence is not guaranteed in practice. This means that the training of a GAN can settle in a state where $p_g \neq p_{\mathrm{data}}$. The most common such state is mode collapse. It occurs when $G$ repeatedly maps noise vector to very similar outputs. As a result, $p_g$ covers only a small part of $p_{\mathrm{data}}$ but $D$ assigns a high probability that the generated samples are real. Mode collapse is still an unresolved challenge in GAN training. In recent years, several strategies have been proposed to mitigate its effect, such as stronger generators and discriminators, longer training and regularization. However, each of these approaches comes with drawbacks \parencite{barshaIndepthReviewAnalysis2025}.
 
 \subsubsection{cGANs}
-Standard GANs can be extended to conditional models \parencite{goodfellowGenerativeAdversarialNetworks2014}. This extension was further developed by \textcite{mirzaConditionalGenerativeAdversarial2014}. In Conditional Generative Adversarial Networks (cGANs), the data follow a conditional distribution $p_{\mathrm{data}}(x \mid \mathrm{c})$, where $c$ is auxiliary deterministic information. The condition is applied to $D$ and $G$ as an additional input.
-The cost functions for $G$ and $D$ are the same as for a standard GAN with the condition $c$.
+Standard GANs can be extended to conditional models \parencite{goodfellowGenerativeAdversarialNetworks2014}. This extension was further developed by \textcite{mirzaConditionalGenerativeAdversarial2014}. \textcite{fuTimeSeriesSimulation2019} apply Conditional Generative Adversarial Networks (cGANs) to the simulation of financial time series. In cGANs, the data follow a conditional distribution $p_{\mathrm{data}}(x \mid c)$, where $c$ is auxiliary deterministic information. The condition is applied to $D$ and $G$ as an additional input. The cost functions for $G$ and $D$ are the same as for a standard GAN with the condition $c$.
 
 \begin{equation}
 J^{(D)}\bigl(\theta_d, \theta_g\bigr)
 = -\frac{1}{2}\,\mathbb{E}_{x \sim p_{\text{data}}} \log D(x\mid c)
   - \frac{1}{2}\,\mathbb{E}_{z} \log\bigl(1 - D\bigl(G(z\mid c)\bigr)\mid c\bigr).
 \end{equation}
-
 Fig.~\ref{fig:cgan} is the visualization of a cGAN workflow adapted from \textcite{vuleticFinGANForecastingClassifying2024}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{figures/cgan.pdf}
+    \includegraphics[width=0.9\textwidth]{figures/cgan.pdf}
     \caption{Structure of a cGAN}
     \label{fig:cgan}
 \end{figure}
@@ -83,7 +81,7 @@ ForGAN adds a recurrent layer (Sec.~\ref{sec:rnn}) to $G$ and $D$. The layer pro
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/forgan_architecture.pdf}
+  \includegraphics[width=0.76\textwidth]{figures/forgan_architecture.pdf}
   \caption{Structure of a ForGAN}
   \label{fig:forgan_architecture}
 \end{figure}
@@ -91,9 +89,7 @@ ForGAN adds a recurrent layer (Sec.~\ref{sec:rnn}) to $G$ and $D$. The layer pro
 \subsubsection{Fin-GAN}\label{sec:fin-gan}
 Fin-GAN was introduced as an extension of ForGAN \parencite{vuleticFinGANForecastingClassifying2024}. It focuses on the probabilistic forecasting of financial time series, specifically equity returns. The ForGAN architecture and the cost function of $D$ are unchanged. LSTM is chosen as the recurrent layer. 
 
-The motivation behind Fin-GAN is to correctly forecast the sign of the return, since the sign determines whether the trade is profitable. For this purpose, economics-driven terms are introduced into the cost function of $G$. In contrast to the unsupervised setting of standard GANs, \textcite{vuleticFinGANForecastingClassifying2024} classify Fin-GAN as supervised learning.
-
-The terms are defined over a minibatch of $n_{\text{batch}}$ pairs. For each condition in the batch, G produces a forecast $\hat{x}_i$ of the realized value $x_i$. Let $\hat{x}=(\hat{x}_1, \ldots, \hat{x}_{n_{\text{batch}}})$ and $x=(x_1, \ldots, x_{n_{\text{batch}}})$. 
+The motivation behind Fin-GAN is to correctly forecast the sign of the return, since the sign determines whether the trade is profitable. For this purpose, economics-driven terms are introduced into the cost function of $G$. In contrast to the unsupervised setting of standard GANs, \textcite{vuleticFinGANForecastingClassifying2024} classify Fin-GAN as supervised learning. The terms are defined over a minibatch of $n_{\text{batch}}$ pairs. For each condition in the batch, G produces a forecast $\hat{x}_i$ of the realized value $x_i$. Let $\hat{x}=(\hat{x}_1, \ldots, \hat{x}_{n_{\text{batch}}})$ and $x=(x_1, \ldots, x_{n_{\text{batch}}})$. 
 
 \textbf{Cost function.} $J^{(G)}$ can be the zero-sum, cross-entropy or Wasserstein cost function. The latter replaces the Jensen–Shannon divergence between $p_{\mathrm{data}}$ and $p_g$ with the Wasserstein-1 distance \parencite{arjovskyWassersteinGAN2017}. \textcite{vuleticFinGANForecastingClassifying2024} report that the Wasserstein cost function was numerically unstable during training. Hence, $J^{(G)}$ is the cross-entropy cost function given in Eq.~\eqref{eq:generator-cross}. In addition, Fin-GAN introduces four economics-driven terms to the cost function. These are defined below. 
 
@@ -110,7 +106,6 @@ A positive forecast corresponds to buying an asset, and a negative forecast to s
 \begin{equation}
 \mathrm{PnL}^{*}_{a}(x_i, \hat{x}_i) = \tanh(k_{\tanh}\,\hat{x}_i)\,x_i,
 \end{equation}
-
 where $k_{\tanh}$ is a hyperparameter that controls the accuracy of the approximation. \textcite{vuleticFinGANForecastingClassifying2024} use $k_{\tanh}=100$, that is large enough to give a close approximation and small enough to maintain strong gradients. 
 
 Although the sign of the forecast is the main interest, forecasting an $\hat{x}_i$ that is close to $x_i$ is also of importance. The mean squared error $\mathrm{MSE}$ measures the squared difference between the forecast and the realized value, averaged over the minibatch.
@@ -120,7 +115,6 @@ $\mathrm{SR}^{*}$ is defined as the mean of the $\mathrm{PnL}^{*}_{a}$ series di
 \mathrm{SR}^{*}(x, \hat{x}) = \frac{\bar{p}}{\sqrt{\dfrac{1}{n_{\text{batch}}} \sum_{i=1}^{n_{\text{batch}}} \left( p_i - \bar{p} \right)^{2}}},
 \label{eq:sharpe-ratio}
 \end{equation}
-
 where $p_i = \mathrm{PnL}^{*}_{a}(x_i, \hat{x}_i)$ and $\bar{p}$ is its mean over the $n_{\mathrm{batch}}$ forecasts. $\mathrm{SR}^{*}$ deviates from Eq.~\ref{eq:std-sharpe-ratio}. The risk-free rate is not subtracted, since the daily risk-free rate is small relative to the daily $\mathrm{PnL}^*_a$. The ratio is not annualized, because a constant factor would be absorbed by the weight $\gamma$ during gradient matching. Lastly, $\mathrm{SR}^*$ is computed over the $n_{\mathrm{batch}}$ forecasts of a minibatch rather than over a return series. As described in Sec.~\ref{sec:nn-training}, SGD requires random minibatches. As a result, forecasts entering $\mathrm{SR}^*$ are not in chronological order \parencite[11]{vuleticFinGANForecastingClassifying2024}.
 
 The standard deviation $\mathrm{STD}$ term is the denominator of Eq.~\ref{eq:sharpe-ratio}. Logically maximizing $\mathrm{SR}^{*}$ is the same as maximizing $\mathrm{PnL}^{*}_{a}$ and minimizing $\mathrm{STD}$ at the same time. As a result, including all three terms in $L^{G}$ is redundant. However, during training $\mathrm{SR}^{*}$ and the combination of $\mathrm{PnL}^{*}_{a}$ and $\mathrm{STD}$ produce different gradients \parencite{vuleticFinGANForecastingClassifying2024}.
@@ -144,7 +138,6 @@ is computed over a full data split on $\mathrm{wPnL}$. $\mathrm{SR}_{w}$ measure
     \label{eq:wpnl-trade}
     \mathrm{wPnL}^{i}_{2} = 10000 \left( p^{i}_{u} - p^{i}_{d} \right) x_i ,
 \end{equation}
-
 where $p^{i}_{u}$ and $p^{i}_{d}$ are the fractions of non-negative and negative samples. \textcite{vuleticFinGANForecastingClassifying2024} use $B = 1000$. Since the equity data uses two returns per day, intraday and overnight, two positions are taken per day. The $\mathrm{wPnL}^{i}$ series is 
 the sum of the two $\mathrm{wPnL}^{i}_{2}$ values per day. 
 For the equity data of \textcite{vuleticFinGANForecastingClassifying2024}, two returns per day give $n_{\text{days}} = \lfloor n/2 \rfloor$. The Sharpe ratio $\mathrm{SR}_{w}$ is then

@@ -48,9 +48,7 @@ The error of Tab.~\ref{tab:price-error} does not show where the model deviates f
   \label{tab:price-error-moneyness}
 \end{table}
 
-GBM has the lowest error for at-the-money strikes, at \num{0.019}. The implied volatility used to price GBM is the listed implied volatility at the strike closest to the settlement price on the valuation date (Sec.~\ref{sec:benchmarks}). As a result, the at-the-money strikes match the market by construction and the value does not measure the accuracy of the model. The in-the-money strikes have an error of \num{0.148}, the out-of-the-money strikes \num{0.155}, and the far out-of-the-money strikes \num{0.325}. A single $\sigma$ produces the same implied volatility at every strike, while the market implied volatility varies across strikes.
-
-The error of the block bootstrap ranges between \num{0.082} for the in-the-money strikes and \num{0.154} for the far out-of-the-money strikes. The $\mathrm{iid}$ bootstrap has a higher error for the far out-of-the-money strikes, at \num{0.208}. The order of returns is the only difference between the two bootstrap modes (Sec.~\ref{sec:benchmarks}), so the gap reflects the volatility clustering.
+GBM has the lowest error for at-the-money strikes, at \num{0.019}. The implied volatility used to price GBM is the listed implied volatility at the strike closest to the settlement price on the valuation date (Sec.~\ref{sec:benchmarks}). As a result, the at-the-money strikes match the market by construction and the value does not measure the accuracy of the model. The in-the-money strikes have an error of \num{0.148}, the out-of-the-money strikes \num{0.155}, and the far out-of-the-money strikes \num{0.325}. A single $\sigma$ produces the same implied volatility at every strike, while the market implied volatility varies across strikes. The error of the block bootstrap ranges between \num{0.082} for the in-the-money strikes and \num{0.154} for the far out-of-the-money strikes. The $\mathrm{iid}$ bootstrap has a higher error for the far out-of-the-money strikes, at \num{0.208}. The order of returns is the only difference between the two bootstrap modes (Sec.~\ref{sec:benchmarks}), so the gap reflects the volatility clustering.
 
 $G$ has the highest error in every range, \num{0.243} for at-the-money strikes to \num{0.341} far out-of-the-money strikes. The at-the-money error is higher than the \num{0.144} of the block bootstrap. The prices at the at-the-money strikes do not depend on the extreme returns, so the deviation is not caused by the tail weight alone. The results of $G$ by moneyness are reported in more detail in Tab.~\ref{tab:price-error-generator}.
 
@@ -97,20 +95,35 @@ The third date falls in the 2026 disruption described in Sec.~\ref{sec:gas-marke
 The spread of the block bootstrap ranges from \num{0.588} to \num{0.608}. The spread of $G$ ranges from \num{0.300} to \num{0.615}, and its correlation with the spread of the realized returns in the condition window is \num{0.752}. The simulated distribution of $G$ widens when the preceding returns are turbulent. As a result, the conditioning of $G$ produces a response. The spread of $G$ is below the implied volatility of the market on \num{17} of the \num{20} valuation dates, so the response does not reach the level of the market.
 
 The reported results of $G$ were generated with the ForGAN baseline cost function. The $\mathrm{PnL}^{*}_{a}$ and $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ branches closest to the test split were priced as well (Sec.~\ref{sec:effect-cost}). The results are reported in Tab.~\ref{tab:price-error-branches}. The error of the ForGAN baseline is the lowest among the three cost function branches. The seed spread of the ForGAN baseline is the smallest at \num{0.041} against \num{0.369} for the $\mathrm{PnL}^{*}_{a}$ branch. The signed error of the $\mathrm{PnL}^{*}_{a}$ branch is \num{0.023} with a seed spread of \num{0.508}, so some seeds price above the market and others below. Compared with the ForGAN baseline, the seed spread of the $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ branch is narrower on most of the generated return statistics (Sec.~\ref{sec:effect-cost}) and wider on the option prices.
+The seed spread is not explained by the excess kurtosis of the generated returns. In the $\mathrm{PnL}^{*}_{a}$ branch, seed \num{2} has the highest excess kurtosis at \num{21.59} and an error of \num{0.303}, close to the errors of the other seeds. In contrast, seed \num{4} has the largest error of \num{1.101} with an excess kurtosis of \num{11.15}. As a result, the divergence arises in the recursive rollout of the generated returns (Sec.~\ref{sec:pricing-setup}), and not in the one-step distribution
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{lrrr}
+  \begin{tabular}{llrrrr}
     \toprule
-    Cost function & $e$ & $s$ & Inverted (\si{\percent}) \\
+    Cost function & Seed & Kurtosis & $e$ & $s$ & Inverted (\si{\percent}) \\
     \midrule
-    ForGAN                                   & \msa{0.255}{0.041} & \msa{-0.228}{0.053} & \msa{79.8}{13.1} \\
-    $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ & \msa{0.316}{0.137} & \msa{-0.149}{0.197} & \msa{85.3}{8.4} \\
-    $\mathrm{PnL}^{*}_{a}$                   & \msa{0.449}{0.369} & \msa{0.023}{0.508}  & \msa{84.9}{5.7} \\
+    ForGAN & 0 & 13.24 & 0.199 & $-0.163$ & 74.9 \\
+           & 1 &  7.61 & 0.237 & $-0.214$ & 96.2 \\
+           & 2 & 12.46 & 0.308 & $-0.287$ & 79.1 \\
+           & 3 &  9.38 & 0.251 & $-0.200$ & 87.4 \\
+           & 4 &  7.93 & 0.279 & $-0.278$ & 61.4 \\
+    \addlinespace
+    $\mathrm{PnL}^{*}_{a}$ & 0 & 10.12 & 0.193 & $-0.168$ & 92.4 \\
+           & 1 &  8.40 & 0.366 & $-0.047$ & 89.3 \\
+           & 2 & 21.59 & 0.303 & $-0.303$ & 80.9 \\
+           & 3 &  8.90 & 0.284 & $-0.281$ & 83.0 \\
+           & 4 & 11.15 & 1.101 & \phantom{$-$}0.912 & 79.0 \\
+    \addlinespace
+    $\mathrm{PnL}^{*}_{a}$ \& $\mathrm{MSE}$ & 0 & 11.62 & 0.208 & $-0.160$ & 92.2 \\
+           & 1 & 11.88 & 0.320 & $-0.313$ & 73.5 \\
+           & 2 & 12.30 & 0.230 & $-0.222$ & 93.9 \\
+           & 3 &  5.39 & 0.271 & $-0.241$ & 80.4 \\
+           & 4 & 12.23 & 0.549 & \phantom{$-$}0.190 & 86.2 \\
     \bottomrule
   \end{tabular}
-  \caption{Implied volatility error, signed error and percentage of
-           inverted strikes by cost function branch}
+  \caption{Excess kurtosis of the generated returns and option pricing
+           results per seed, configuration 8}
   \label{tab:price-error-branches}
 \end{table}
 

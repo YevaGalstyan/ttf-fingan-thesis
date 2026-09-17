@@ -82,7 +82,7 @@ def main():
           + (f", window {args.window}" if args.sigma == "historical" else ""))
 
     for _, v in val.iterrows():
-        mkt = market_strikes(con, v["valuation"], v["expiry"])
+        mkt = market_strikes(con, v["valuation"], v["expiry"], v["F_t"])
         if mkt.empty:
             print(f"  {v['valuation']:%Y-%m-%d}  no strikes, skipped")
             continue

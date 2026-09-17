@@ -32,10 +32,12 @@ from rollout import CONFIGS, load_series, load_generator, make_tag, condition_wi
 MNY_LO, MNY_HI = 0.5, 2.0
 
 
-def market_strikes(con, valuation_date, expiry):
+def market_strikes(con, valuation_date, expiry, F_t):
     """
     Listed call strikes for one expiry on one valuation date, restricted to
     the moneyness band of Sec. 4.1.5, with the exchange implied volatility.
+    Moneyness is computed from F_t, the price of the option's underlying
+    on the valuation date (see build_pricing_date.py).
     """
     return con.sql(f"""
         SELECT strike_price AS strike,
@@ -45,7 +47,7 @@ def market_strikes(con, valuation_date, expiry):
         WHERE trading_date    = DATE '{valuation_date:%Y-%m-%d}'
           AND expiration_date = DATE '{expiry:%Y-%m-%d}'
           AND instrument_class = 'C'
-          AND moneyness_k_over_f BETWEEN {MNY_LO} AND {MNY_HI}
+          AND strike_price / {float(F_t)} BETWEEN {MNY_LO} AND {MNY_HI}
         ORDER BY strike_price
     """).df()
 
@@ -71,7 +73,7 @@ def main():
         print(f"\n{tag}")
 
         for _, v in val.iterrows():
-            mkt = market_strikes(con, v["valuation"], v["expiry"])
+            mkt = market_strikes(con, v["valuation"], v["expiry"], v["F_t"])
             if mkt.empty:
                 print(f"  {v['valuation']:%Y-%m-%d}  no strikes, skipped")
                 continue

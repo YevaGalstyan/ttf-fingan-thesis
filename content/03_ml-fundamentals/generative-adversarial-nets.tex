@@ -46,7 +46,7 @@ GANs are trained by updating the two networks in turn. At each step, a minibatch
 As stated previously, convergence is not guaranteed in practice. This means that the training of a GAN can settle in a state where $p_g \neq p_{\mathrm{data}}$. The most common such state is mode collapse. It occurs when $G$ repeatedly maps noise vector to very similar outputs. As a result, $p_g$ covers only a small part of $p_{\mathrm{data}}$ but $D$ assigns a high probability that the generated samples are real. Mode collapse is still an unresolved challenge in GAN training. In recent years, several strategies have been proposed to mitigate its effect, such as stronger generators and discriminators, longer training and regularization. However, each of these approaches comes with drawbacks \parencite{barshaIndepthReviewAnalysis2025}.
 
 \subsubsection{cGANs}
-Standard GANs can be extended to conditional models \parencite{goodfellowGenerativeAdversarialNetworks2014}. This extension was further developed by \textcite{mirzaConditionalGenerativeAdversarial2014}. \textcite{fuTimeSeriesSimulation2019} apply Conditional Generative Adversarial Networks (cGANs) to the simulation of financial time series. In cGANs, the data follow a conditional distribution $p_{\mathrm{data}}(x \mid c)$, where $c$ is auxiliary deterministic information. The condition is applied to $D$ and $G$ as an additional input. The cost functions for $G$ and $D$ are the same as for a standard GAN with the condition $c$.
+Standard GANs can be extended to conditional models \parencite{goodfellowGenerativeAdversarialNetworks2014}. This extension was further developed by \textcite{mirzaConditionalGenerativeAdversarial2014}. \textcite{fuTimeSeriesSimulation2019} apply cGANs to the simulation of financial time series. In cGANs, the data follow a conditional distribution $p_{\mathrm{data}}(x \mid c)$, where $c$ is auxiliary deterministic information. The condition is applied to $D$ and $G$ as an additional input. The cost functions for $G$ and $D$ are the same as for a standard GAN with the condition $c$.
 
 \begin{equation}
 J^{(D)}\bigl(\theta_d, \theta_g\bigr)
@@ -64,7 +64,7 @@ Fig.~\ref{fig:cgan} is the visualization of a cGAN workflow adapted from \textci
 
 
 \subsubsection{ForGAN}\label{sec:forgan}
-The conditional input proposed in cGANs by \textcite{mirzaConditionalGenerativeAdversarial2014} prepared the ground for domain-specific GAN architectures. ForGAN was introduced specifically for time series forecasting \parencite{koochaliProbabilisticForecastingSensory2019}.
+The conditional input proposed in cGANs prepared the ground for domain-specific GAN architectures. ForGAN was introduced specifically for time series forecasting \parencite{koochaliProbabilisticForecastingSensory2019}.
 
 ForGAN is trained to approximate the conditional distribution of the next value in a time series. The condition is the sequence of the previous $l$ observations, ending at time~$t$
 

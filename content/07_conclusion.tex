@@ -9,7 +9,7 @@ The generated returns reproduce the stylized facts in part. $G$ learns heavy tai
 
 The generated price paths do not yet reproduce the market prices of TTF options. $G$ has the highest implied volatility error at \num{0.256}, against \numrange{0.119}{0.149} for the benchmarks. The signed error is negative in every moneyness range. As a result, the deviation of the generated option prices from the market is a systematic underpricing. At the same time, $G$ reacts to the recent returns. The spread of its simulated returns correlates with the spread of the condition window at \num{0.758}, but stays below the market implied volatility on \num{17} of the \num{20} valuation dates.
 
-For the setup of this thesis, the first research question is answered in part and the second negatively. The generated distribution is narrower than the observed returns. In addition, the recursive rollout moves $G$ outside the regime it was trained on.
+For the setup of this thesis, the first research question (\ref{rq:stylized}) is answered in part and the second (\ref{rq:pricing}) negatively. The generated distribution is narrower than the observed returns. In addition, the recursive rollout moves $G$ outside the regime it was trained on.
 
 \subsection{Future Work}\label{sec:future-work}
 

@@ -1,14 +1,14 @@
 
 \subsection{Stylized Facts of Asset Returns}\label{sec:stylized-facts}
-A diverse collection of assets, markets and time periods share common statistical characteristics of returns. These characteristics are referred to as stylized facts. Eleven stylized facts are summarized in \textcite{contEmpiricalPropertiesAsset2001}. As described in Sec.~\ref{sec:options}, the value of an option depends on the distribution of $F_T$. Only three stylized facts describing this distribution are measured for TTF: heavy tails, volatility clustering and asymmetry.
+A diverse collection of assets, markets, and time periods shares common statistical characteristics of returns. These characteristics are referred to as stylized facts. Eleven stylized facts are summarized in \textcite{contEmpiricalPropertiesAsset2001}. 
+The price of an option depends on the distribution of $F_T$ (Sec.~\ref{sec:options}). Three stylized facts describing the shape of the return distribution and its development over time are considered for TTF futures returns: heavy tails, volatility clustering, and asymmetry.
 
 \textbf{Heavy tails.} The tails of a distribution are the regions far from its mean. Large and infrequent returns are located in the tails. The distribution of financial returns has more mass in the tails than a normal distribution \parencite{contEmpiricalPropertiesAsset2001}. This is referred to as heavy tails. The weight of the tails is measured by the excess kurtosis
-
 \begin{equation}
     \mathrm{Kurt}_{\mathrm{ex}}(X) = \mathbb{E}\!\left[\left(\frac{X-\mu}{\sigma}\right)^{4}\right] - 3,
     \label{eq:kurtosis}
 \end{equation}
-where $\mu$ and $\sigma$ are the mean and the standard deviation of the random variable $X$. The excess kurtosis of a normal distribution is 0. The distribution is considered heavy-tailed if its excess kurtosis is positive. The tails of the return distribution determine the value of out-of-the-money options, which pay nothing unless a large move occurs. A volatility smile  with higher implied volatility at strikes far from the current price, in both directions, corresponds to an implied distribution (Sec.~\ref{sec:implied-vol}) with heavier tails than the lognormal \parencite[453]{hullOptionsFuturesOther2022}.
+where $\mu$ and $\sigma$ are the mean and the standard deviation of the random variable $X$. The excess kurtosis of a normal distribution is 0. The distribution is considered heavy-tailed if its excess kurtosis is positive. The tails of the return distribution determine the value of out-of-the-money options, which pay nothing unless a large move occurs. A volatility smile with higher implied volatility at strikes far from the current price, in both directions, corresponds to an implied distribution (Sec.~\ref{sec:implied-vol}) with heavier tails than the lognormal \parencite[453]{hullOptionsFuturesOther2022}.
 
 \textbf{Volatility clustering.} Large returns are more likely to be followed by large returns, and small returns by small returns \parencite{contEmpiricalPropertiesAsset2001}. This is measured with the autocorrelation. Autocorrelation is the correlation of a time series with itself, shifted by a fixed number
 of observations called the lag. The autocorrelation of returns at lag $\tau$ is 
@@ -16,23 +16,21 @@ of observations called the lag. The autocorrelation of returns at lag $\tau$ is
     C(\tau) = \mathrm{corr}\!\left( x_{t+\tau},\ x_{t} \right),
     \label{eq:autocorrelation}
 \end{equation}
-where $x_t$ is the return on trading day $t$. The returns themselves show almost no autocorrelation, while absolute or squared returns are positively correlated \parencite{contEmpiricalPropertiesAsset2001}. Volatility clustering is measured on squared returns
+where $x_t$ is the return on trading day $t$. The autocorrelation lies between $-1$ and $1$. A value close to $0$ means that past returns carry no linear information about future returns. The returns themselves show almost no autocorrelation, while absolute or squared returns are positively correlated \parencite{contEmpiricalPropertiesAsset2001}. Squaring removes the sign of the return, so volatility clustering is measured on squared returns
 \begin{equation}
     C_2(\tau) = \mathrm{corr}\!\left( x_{t+\tau}^{2},\ x_{t}^{2} \right).
     \label{eq:vol-clustering}
 \end{equation}
-$C_2$ remains positive through squaring and decays slowly over several days. The distribution of $F_T$ covers the life of the option rather than over a single day. As the length of the period over which the returns are calculated increases, the distribution of returns approaches a normal distribution. This property is referred to as aggregational Gaussianity \parencite{contEmpiricalPropertiesAsset2001}. Volatility clustering slows the convergence to a normal distribution.
+$C_2$ remains positive through squaring and decays slowly over several days. The distribution of $F_T$ covers the life of the option rather than a single day. As the length of the period over which the returns are calculated increases, the distribution of returns approaches a normal distribution. This property is referred to as aggregational Gaussianity \parencite{contEmpiricalPropertiesAsset2001}. Volatility clustering slows the convergence to a normal distribution. As a result, the distribution of $F_T$ keeps heavier tails than the lognormal over the life of the option.
 
 \textbf{Gain/loss asymmetry.} The distribution of returns is asymmetric around its mean. Asymmetry is measured with the skewness
 \begin{equation}
     \mathrm{Skew}(X) = \mathbb{E}\!\left[\left(\frac{X-\mu}{\sigma}\right)^{3}\right],
     \label{eq:skewness}
 \end{equation}
-where $\mu$ and $\sigma$ are the mean and the standard deviation of the random variable $X$. The skewness of a normal distribution is 0. The skewness is positive when large positive returns are more likely than large negative returns, and negative in the opposite case. The distribution is considered asymmetric if its skewness is non-zero. 
-A volatility smile that is higher on one side than the other corresponds to an implied distribution with a heavier tail on that side \parencite[456]{hullOptionsFuturesOther2022}. The skewness of the implied distribution is therefore non-zero.
+where $\mu$ and $\sigma$ are the mean and the standard deviation of the random variable $X$. The skewness of a normal distribution is 0. The skewness is positive when large positive returns are more likely than large negative returns, and negative in the opposite case. The distribution is considered asymmetric if its skewness is non-zero. A volatility smile that is higher on one side than the other corresponds to an implied distribution with a heavier tail on that side \parencite[456]{hullOptionsFuturesOther2022}. The skewness of the implied distribution is therefore non-zero.
 
 Eq.~\eqref{eq:skewness} and Eq.~\eqref{eq:kurtosis} are defined over a random variable $X$. In practice, the distribution of returns is unknown and only a sample of $n$ observations $x_1, \dots, x_n$ is available. Therefore, the mean $\mu$ and the standard deviation $\sigma$ are computed from the sample, and $\mathbb{E}[\cdot]$ becomes an average over the $n$ observations. The resulting sample estimators of skewness and excess kurtosis are 
-
 \begin{equation}
 g_1 = \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^3}
            {\left[ \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2 \right]^{3/2}}
@@ -43,5 +41,4 @@ g_2 = \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^4}
 \end{equation}
 where $\bar{x}$ is the mean of the $n$ observations.
 
-
-Mean reversion and seasonality are commodity-specific stylized facts \parencite[64--68]{gemanCommoditiesCommodityDerivatives2006}. Mean reversion is the tendency of a price to return to its long-term average after a period of deviation. Seasonality is the tendency of a price to follow a predictable pattern over the course of a year. These stylized facts describe the behavior of the price level over months and years, while this thesis models the distribution of daily returns. 
+Mean reversion and seasonality are commodity-specific stylized facts \parencite[64--68]{gemanCommoditiesCommodityDerivatives2005}. Mean reversion is the tendency of a price to return to its long-term average after a period of deviation. Seasonality is the tendency of a price to follow a predictable pattern over the course of a year. These stylized facts describe the behavior of the price level over months and years, while this thesis models the distribution of daily returns. 

@@ -1,27 +1,21 @@
 \subsection{Evaluation Methodology}\label{sec:evaluation}
-$G$ was evaluated on the test split. Each row of the window matrix consists of a condition window of $l$ realized returns and the realized return of the next day. The conditions were passed to the trained $G$ and the generated values were compared to the realized values. For each condition, $B=1000$ samples were drawn from $G$ with different noise vectors. 
+This section describes how the generated returns are compared with the test split. The same evaluation is applied to every trained model. This covers each of the ten cost function branches under each configuration, and each of the five seeds. 
 
-The realized returns of the split, $x = (x_1, \ldots, x_{n_{\mathrm{cond}}})$, give the reference values, where $n_{\mathrm{cond}}$ is the number of rows in the window matrix. Since the first $l$ returns are used as the initial condition window, a split of $n$ returns gives $n_{\mathrm{cond}} = n - l$ rows.
-The generated draws form a matrix $\hat{X} \in \mathbb{R}^{n_{\mathrm{cond}} \times B}$, where $\hat{x}_{i,j}$ is the $j$-th draw of condition $i$. Additional sets were derived from $\hat{X}$. 
+The evaluation starts from the window matrix of the test split (Sec.~\ref{sec:data-split}). Each row of the window matrix consists of a condition window of $l$ realized returns and the realized return of the next day. The conditions were passed to the trained $G$, and the generated values were compared to the realized values. For each condition, $B=\num{1000}$ samples were drawn from $G$ with different noise vectors. 
 
-The path set $\hat{x}_{\mathrm{path}} = (\hat{x}_{1,1}, \ldots, \hat{x}_{n_{\mathrm{cond}},1})$ is the first column of $\hat{X}$, giving one generated return per trading day.
-The pooled set takes all $n_{\mathrm{cond}}B$ generated entries of $\hat{X}$.
-
+The realized returns of the split, $x = (x_1, \ldots, x_{n_{\mathrm{cond}}})$, give the reference values, where $n_{\mathrm{cond}}$ is the number of rows in the window matrix. Since the first $l$ returns are used as the initial condition window, a split of $n$ returns gives $n_{\mathrm{cond}} = n - l$ rows. The generated draws form a matrix $\hat{X} \in \mathbb{R}^{n_{\mathrm{cond}} \times B}$, where $\hat{x}_{i,j}$ is the $j$-th draw of condition $i$. Additional sets were derived from $\hat{X}$. The path set $\hat{x}_{\mathrm{path}} = (\hat{x}_{1,1}, \ldots, \hat{x}_{n_{\mathrm{cond}},1})$ is the first column of $\hat{X}$, giving one generated return per trading day. The pooled set takes all $n_{\mathrm{cond}}B$ generated entries of $\hat{X}$
 \begin{equation}
     \hat{x}_{\mathrm{pool}} = \{\, \hat{x}_{i,j} \;|\;
     i = 1, \ldots, n_{\mathrm{cond}}, \; j = 1, \ldots, B \,\}.
 \end{equation}
- 
-The mean set holds the mean of all draws for each condition.
+The mean set holds the mean of all draws for each condition
 \begin{equation}
     m = (m_1, \ldots, m_{n_{\mathrm{cond}}}), 
     \text{ where }
     m_i = \frac{1}{B} \sum_{j=1}^{B} \hat{x}_{i,j}.
 \end{equation}
-$\hat{x}_{\mathrm{pool}}$ contains $B$ times more observations than $x$, therefore giving a more reliable estimate of the tails. $\hat{x}_{\mathrm{path}}$ preserves the order in time, since it holds one generated return per trading day.
+The pooled set $\hat{x}_{\mathrm{pool}}$ contains $B$ times more observations than $x$, therefore giving a more reliable estimate of the tails. The path set $\hat{x}_{\mathrm{path}}$ preserves the order in time, since it holds one generated return per trading day.
 
-Distributional statistics were computed for $x$ and $\hat{x}_{\mathrm{pool}}$: mean, standard deviation, skewness, excess kurtosis, minimum, maximum, \SI{1}{\percent} and \SI{99}{\percent} quantiles. Skewness and excess kurtosis measure the asymmetry and the tail weight described in Sec.~\ref{sec:stylized-facts}. Additionally, the fractions of returns exceeding \SI{5}{\percent} and \SI{10}{\percent} in absolute value were computed. The fraction of observations whose absolute value exceeds $u$ is denoted as $P(|x| > u)$. The exceedance fractions measure the frequency of extreme returns, which determines the value of out-of-the-money options (Sec.~\ref{sec:options}).
+Distributional statistics were computed for $x$ and $\hat{x}_{\mathrm{pool}}$: mean, standard deviation, skewness, excess kurtosis, minimum, maximum, and the \SI{1}{\percent} and \SI{99}{\percent} quantiles. Skewness and excess kurtosis measure the asymmetry and the tail weight described in Sec.~\ref{sec:stylized-facts}. Additionally, the fractions of returns exceeding \SI{5}{\percent} and \SI{10}{\percent} in absolute value were computed. The fraction of observations whose absolute value exceeds $u$ is denoted as $P(|x| > u)$. The exceedance fractions measure the frequency of extreme returns, which determines the value of out-of-the-money options (Sec.~\ref{sec:options}). The autocorrelation $C_2(\tau)$ of Eq.~\eqref{eq:vol-clustering} was computed for $x$ and $\hat{x}_{\mathrm{path}}$ at $\tau=1, 2, 5, 10$. The pooled set $\hat{x}_{\mathrm{pool}}$ cannot be used since it has no order in time.
 
-$C_2(\tau)$ from Eq.~\ref{eq:vol-clustering} was computed for $x$ and $\hat{x}_{\mathrm{path}}$ at $\tau=1, 2, 5, 10$. $\hat{x}_{\mathrm{pool}}$ cannot be used since it has no order in time.
-
-Lastly, the mode collapse described in Sec.~\ref{sec:fin-gan} was checked. For distributional mode collapse, the standard deviation of each row of $\hat{X}$ was computed. The smallest value was compared with $\epsilon=0.0002$. For mean mode collapse, the standard deviation of $m$ was compared with the same $\epsilon$ value. The evaluation is implemented in \texttt{ttf\_eval.py}.
+Lastly, the mode collapse described in Sec.~\ref{sec:fin-gan} was checked. For distributional mode collapse, the standard deviation of each row of $\hat{X}$ was computed. The smallest value was compared with $\epsilon=\num{0.0002}$. For mean mode collapse, the standard deviation of $m$ was compared with the same $\epsilon$ value. The evaluation is implemented in \texttt{ttf\_eval.py}.

@@ -4,8 +4,10 @@
 \usepackage{palatino}
 \usepackage[english]{babel}
 \usepackage{csquotes}
-\usepackage[backend=biber, style=authoryear, maxcitenames=2]{biblatex}
-
+\usepackage[backend=biber,
+  style=authoryear, maxcitenames=2,
+  dashed=false]{biblatex}
+  
 \addbibresource{literatur.bib}
 
 % Layout and structure
@@ -31,6 +33,7 @@
 \sisetup{
   group-separator = {,},
   group-minimum-digits = 4,
+  group-digits = integer,
   detect-all,
 }
 
@@ -62,3 +65,11 @@
 \newcommand{\msa}[2]{$#1 {\scriptstyle\pm} #2$}
 \usepackage{etoolbox}
 \pretocmd{\section}{\clearpage}{}{}
+\DeclareSIUnit{\eurmwh}{EUR/MWh}
+
+% Research questions reference helper commands
+\newcounter{rq}
+\renewcommand{\therq}{RQ\arabic{rq}}
+\newcommand{\rqlabel}[1]{%
+  \refstepcounter{rq}(\therq)%
+  \label{#1}}

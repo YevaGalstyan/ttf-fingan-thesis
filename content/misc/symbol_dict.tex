@@ -10,72 +10,123 @@ Symbol & Meaning \\
 \midrule
 \endhead
 
-\multicolumn{2}{@{}l}{\textit{Financial fundamentals}} \\
-$F_t$ & Futures settlement price on trading day $t$ \\
-$F_T$ & Futures settlement price at expiry \\
-$K$ & Strike price \\
-$T$ & Time to maturity \\
-$r$ & Risk-free rate \\
-$r_f$ & Risk-free rate in the Sharpe ratio \\
-$\sigma$ & Volatility of the futures price \\
+\multicolumn{2}{@{}l}{%
+  \textit{Financial fundamentals}} \\
 $\mu$ & Mean return over a period \\
+$\sigma$ & Volatility of the futures price \\
+$\Phi$ & Cumulative distribution function
+  of the standard normal \\
 $C$, $P$ & European call and put price \\
-$\Phi$ & Cumulative distribution function of the standard normal \\
-$\mathcal{N}(\mu,\sigma^2)$ & Normal distribution with mean $\mu$ and variance $\sigma^2$ \\
-$f(x)$ & Probability density of the normal distribution \\
-$d_1$, $d_2$ & Arguments of $\Phi$ in Black-76 \\
-$\hat{\mathbb{E}}$ & Expectation in a risk-neutral world \\
-$P_t$ & Front-month settlement price on trading day $t$ \\
+$C_2(\tau)$ & Autocorrelation of squared
+  returns at lag $\tau$ \\
+$d_1$, $d_2$ & Arguments of $\Phi$
+  in Black-76 \\
+$\hat{\mathbb{E}}$ & Expectation in a
+  risk-neutral world \\
+$f(x)$ & Probability density of the
+  normal distribution \\
+$F_t$ & Futures settlement price on
+  trading day $t$ \\
+$F_T$ & Futures settlement price
+  at expiry \\
+$K$ & Strike price; agreed price of a futures contract \\
+$\mathcal{N}(\mu,\sigma^2)$ & Normal
+  distribution with mean $\mu$ and
+  variance $\sigma^2$ \\
+$P_t$ & Front-month settlement price
+  on trading day $t$ \\
+$P(|x| > u)$ & Fraction of returns
+  exceeding $u$ in absolute value \\
+$r$ & Risk-free rate \\
+$r_f$ & Risk-free rate in the
+  Sharpe ratio \\
+$T$ & Time to maturity \\
 $x_t$ & Log return on trading day $t$ \\
-$C_2(\tau)$ & Autocorrelation of squared returns at lag $\tau$ \\
-$P(|x| > u)$ & Fraction of returns exceeding $u$ in absolute value \\
 \addlinespace
 
-\multicolumn{2}{@{}l}{\textit{Neural networks and GANs}} \\
-$\theta$, $\theta_g$, $\theta_d$ & Learnable parameters \\
-$d$ & Number of parameters in $\theta$ \\
-$G$, $D$ & Generator and discriminator \\
-$z$ & Noise vector \\
-$p_z$, $p_{\mathrm{data}}$, $p_g$ & Noise, data and generated distributions \\
-$J^{(G)}$, $J^{(D)}$ & Cost functions of $G$ and $D$ \\
-$k$ & Discriminator updates per generator update \\
+\multicolumn{2}{@{}l}{%
+  \textit{Neural networks and GANs}} \\
+$\theta$, $\theta_g$, $\theta_d$ &
+  Learnable parameters \\
 $c$ & Condition vector \\
-$W$, $b$ & Weight matrix and bias vector \\
+$d$ & Number of parameters in $\theta$ \\
+$G$, $D$ & Generator and
+  discriminator \\
+$J^{(G)}$, $J^{(D)}$ & Cost functions
+  of $G$ and $D$ \\
+$k$ & Discriminator updates per
+  generator update \\
+$p_z$, $p_{\mathrm{data}}$, $p_g$ &
+  Noise, data and generated
+  distributions \\
+$W$, $b$ & Weight matrix and
+  bias vector \\
+$z$ & Noise vector \\
 \addlinespace
 
-\multicolumn{2}{@{}l}{\textit{Fin-GAN cost function}} \\
-$\hat{x}_i$ & Forecast of the realized value $x_i$ \\
-$n_{\mathrm{batch}}$ & Number of forecasts in a minibatch \\
-$p_i$, $\bar{p}$ & $\mathrm{PnL}^{*}_{a}$ of forecast $i$, and its minibatch mean \\
-$\mathrm{PnL}^{*}_{a}$ & Smooth profit and loss term \\
-$k_{\tanh}$ & Sharpness of the $\tanh$ approximation \\
-$\mathrm{MSE}$ & Mean squared error term \\
-$\mathrm{SR}^{*}$ & Sharpe ratio term of the cost function \\
-$\mathrm{STD}$ & Standard deviation term \\
-$\alpha,\beta,\gamma,\delta$ & Gradient-matching weights \\
+\multicolumn{2}{@{}l}{%
+  \textit{Fin-GAN cost function}} \\
+$\alpha,\beta,\gamma,\delta$ &
+  Gradient-matching weights \\
 $\epsilon$ & Mode collapse threshold \\
-$\mathrm{wPnL}$, $\mathrm{SR}_w$ & Weighted strategy profit and Sharpe ratio \\
+$k_{\tanh}$ & Sharpness of the
+  $\tanh$ approximation \\
+$\mathrm{MSE}$ & Mean squared
+  error term \\
+$n_{\mathrm{batch}}$ & Number of
+  forecasts in a minibatch \\
+$p_i$, $\bar{p}$ & $\mathrm{PnL}^{*}_{a}$
+  of forecast $i$, and its
+  minibatch mean \\
+$\mathrm{PnL}^{*}_{a}$ & Smooth profit
+  and loss term \\
+$\mathrm{SR}^{*}$ & Sharpe ratio term
+  of the cost function \\
+$\mathrm{STD}$ & Standard deviation
+  term \\
+$\mathrm{wPnL}$, $\mathrm{SR}_w$ &
+  Weighted strategy profit and
+  Sharpe ratio \\
+$\hat{x}_i$ & Forecast of the realized
+  value $x_i$ \\
 \addlinespace
 
-\multicolumn{2}{@{}l}{\textit{Experimental setup and evaluation}} \\
-$l$ & Condition window length \\
-$N$ & Noise dimension \\
-$R_G$, $R_D$ & Generator and discriminator hidden size \\
-$n_{\mathrm{grad}}$, $n_{\mathrm{epochs}}$ & Gradient-matching and training epochs \\
-$n_{\mathrm{cond}}$ & Rows in the window matrix \\
+\multicolumn{2}{@{}l}{%
+  \textit{Experimental setup and
+  evaluation}} \\
 $B$ & Draws per condition \\
-$\hat{X}$ & Matrix of generated draws \\
-$\hat{x}_{\mathrm{path}}$, $\hat{x}_{\mathrm{pool}}$ & Path and pooled evaluation sets \\
+$l$ & Condition window length \\
 $m$ & Mean set of point forecasts \\
+$n_{\mathrm{cond}}$ & Rows in the
+  window matrix \\
+$n_{\mathrm{grad}}$,
+  $n_{\mathrm{epochs}}$ &
+  Gradient-matching and
+  training epochs \\
+$N$ & Noise dimension \\
+$R_G$, $R_D$ & Generator and
+  discriminator hidden size \\
+$\hat{x}_{\mathrm{path}}$,
+  $\hat{x}_{\mathrm{pool}}$ &
+  Path and pooled evaluation sets \\
+$\hat{X}$ & Matrix of generated
+  draws \\
 \addlinespace
 
-\multicolumn{2}{@{}l}{\textit{Option pricing}} \\
-$h$ & Trading days from the valuation date to expiry \\
-$M$ & Simulated paths per valuation date \\
+\multicolumn{2}{@{}l}{%
+  \textit{Option pricing}} \\
 $\Delta$ & Time step, $T/h$ \\
-$\hat{x}_k$ & Simulated return on step $k$ \\
-$\varepsilon_k$ & Standard normal draw on step $k$ \\
-$\hat{F}_T$ & Simulated settlement price at expiry \\
-$\tilde{F}_T$ & Simulated settlement price after the correction \\
+$\varepsilon_k$ & Standard normal
+  draw on step $k$ \\
+$\hat{F}_T$ & Simulated settlement
+  price at expiry \\
+$\tilde{F}_T$ & Simulated settlement
+  price after the correction \\
+$h$ & Trading days from the valuation
+  date to expiry \\
+$M$ & Simulated paths per
+  valuation date \\
+$\hat{x}_k$ & Simulated return
+  on step $k$ \\
 \bottomrule
 \end{longtable}

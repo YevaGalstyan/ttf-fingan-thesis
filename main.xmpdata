@@ -1,4 +1,9 @@
-\Keywords{pdfTeX\sep PDF/X-1a\sep PDF/A-b} 
-  \Title{Sample LaTeX input file} 
-  \Author{LaTeX project team}
-  \Org{TeX Users Group}
+\Title{Synthetic Price Path Generation for European Gas 
+Markets Using Generative Adversarial Networks 
+with Applications to Option Pricing}
+\Author{Yeva Galstyan}
+\Subject{Master's Thesis,
+  Hochschule Fulda}
+\Keywords{GAN\sep TTF\sep
+  option pricing}
+\Language{en-GB}

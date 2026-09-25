@@ -1,7 +1,7 @@
 \subsection{Software Environment}\label{sec:software}
-Experiments were run on a MacBook Pro with an Apple M4 Pro processor and 24 GB of RAM, running macOS 26.6.1. The NVIDIA CUDA toolkit is not supported on macOS. Training was on CPU. The software packages and their respective versions used for the data pipeline, model training and evaluation are listed in Table~\ref{tab:software}.
+Experiments were run on a MacBook Pro with an Apple M4 Pro processor and \SI{24}{\giga\byte} of RAM, running macOS 26.6.1. The NVIDIA CUDA toolkit is not supported on macOS. Training was on CPU. The software packages and their respective versions used for the data pipeline, model training, and evaluation are listed in Table~\ref{tab:software}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \begin{tabular}{ll}
 \toprule
@@ -22,7 +22,8 @@ tqdm & 4.70.0 \\
 \caption{Software packages and versions}
 \label{tab:software}
 \end{table}
-A fixed seed was set for the Python, NumPy and PyTorch random number
+
+A fixed seed was set for the Python, NumPy, and PyTorch random number
 generators at the start of each run.
 
 The TTF futures data from Bloomberg and the options data from Databento are licensed and cannot be distributed. The processing steps are documented in Sec.~\ref{sec:data-pipeline}. The pipeline is reproducible, given access to the same sources.
@@ -31,5 +32,3 @@ The implementation is based on the reference code of
 \textcite{vuleticFinGANForecastingClassifying2024}\footnote{\url{https://github.com/milenavuletic/Fin-GAN}}
 and is publicly available on
 GitHub.\footnote{\url{https://github.com/YevaGalstyan/ttf-fingan-thesis}}
-
-% \todo{Verify polars and DuckDB are actually used before submission. Neither is in requirements.txt. Remove from table or install.}

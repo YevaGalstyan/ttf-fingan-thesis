@@ -6,7 +6,7 @@ The lognormal distribution is defined through the normal distribution $\mathcal{
 f(x) = \frac{1}{\sigma \sqrt{2\pi}}
        \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
 \end{equation}
-where $x$ is a value of the random variable $X$. The distribution is symmetric around $\mu$ and is fully described by $\mu$ and $\sigma$. For the standard normal distribution $\mu = 0$ and $\sigma = 1$. The cumulative distribution function gives the probability that the variable takes a value less than or equal to a given threshold. For the standard normal distribution, the cumulative distribution function is 
+where $x$ is a value of the random variable $X$. The distribution is symmetric around $\mu$ and is fully described by $\mu$ and $\sigma$. For the standard normal distribution, $\mu = 0$ and $\sigma = 1$. The cumulative distribution function gives the probability that the variable takes a value less than or equal to a given threshold. For the standard normal distribution, the cumulative distribution function is 
 \begin{equation}
     \Phi(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}}
               \exp\!\left(-\frac{u^{2}}{2}\right) \, du.
@@ -21,18 +21,14 @@ C = e^{-rT} \left[ F_t \Phi(d_1) - K \Phi(d_2) \right],
 P = e^{-rT} \left[ K \Phi(-d_2) - F_t \Phi(-d_1) \right],
 \label{eq:black-76-put}
 \end{equation}
-
-where $F_t$ is the current futures price, $K$ is the strike price, $T$ is the time to maturity, $r$ is the risk-free rate, and $\sigma$ is the volatility of the futures price, as defined in Sec.~\ref{sec:financial-markets}. The Eqs.~\eqref{eq:black-76-call} and~\eqref{eq:black-76-put} do not contain a growth term for $F_t$, since the futures price is not expected to grow in a risk-neutral world (Sec.~\ref{sec:options}). $d_1$ and $d_2$ are given by
-
+where $F_t$ is the current futures price, $K$ is the strike price, $T$ is the time to maturity, $r$ is the risk-free rate, and $\sigma$ is the volatility of the futures price, as defined in Sec.~\ref{sec:financial-markets}. Eqs.~\eqref{eq:black-76-call} and~\eqref{eq:black-76-put} do not contain a growth term for $F_t$, since the futures price is not expected to grow in a risk-neutral world (Sec.~\ref{sec:options}). $d_1$ and $d_2$ are given by
 \begin{equation}
 d_1 = \frac{\ln(F_t/K) + \sigma^2 T/2}{\sigma \sqrt{T}}, \qquad
 d_2 = d_1 - \sigma \sqrt{T}.
 \end{equation}
+The parameters entering Eq.~\eqref{eq:black-76-call} and Eq.~\eqref{eq:black-76-put} are observable, except for $\sigma$. The risk-free rate $r$ is not quoted with the option and is taken from a market interest rate. The implied volatility is the value of $\sigma$ at which the model price matches the market price of the option. Eq.~\eqref{eq:black-76-call} and Eq.~\eqref{eq:black-76-put} cannot be solved for $\sigma$ in closed form, since $\sigma$ enters through $\Phi$ and appears in both $d_1$ and $d_2$. As a result, the implied volatility is found numerically. The option price increases with $\sigma$, so exactly one value reproduces the observed price \parencite[358]{hullOptionsFuturesOther2022}.
 
-The parameters entering Eq.~\eqref{eq:black-76-call} and Eq.~\eqref{eq:black-76-put} are observable, except for $\sigma$. The implied volatility is the value of $\sigma$ at which the model price matches the market price of the option. Eq.~\eqref{eq:black-76-call} and Eq.~\eqref{eq:black-76-put} cannot be solved for $\sigma$ in closed form, since $\sigma$ enters through $\Phi$ and appears in both $d_1$ and $d_2$. As a result, the implied volatility is found numerically. The option price increases with $\sigma$, so exactly one value reproduces the observed price \parencite[358]{hullOptionsFuturesOther2022}.
+If the Black-76 model held, the implied volatility of options on the same futures contract with the same expiry would be constant across strikes. The plot of implied volatility against $K$ is known as the volatility smile. In practice, the smile is not flat. The distribution of $F_T$ implied by the market prices of options, referred to as the implied distribution, therefore departs from the lognormal \parencite[101--102]{gemanCommoditiesCommodityDerivatives2005}. The role of Black-76 here is the conversion of prices into implied volatilities. The lognormal assumption is not adopted for $F_T$.
 
-If the Black-76 model held, the implied volatility of options on the same futures contract with the same expiry would be constant across strikes. The plot of implied volatility against $K$ is known as the volatility smile. In practice the smile is not flat. The distribution of $F_T$ implied by the market prices of options, referred to as the implied distribution, therefore departs from the lognormal \parencite[101--102]{gemanCommoditiesCommodityDerivatives2006}. The role of Black-76 here is the conversion of prices into implied volatilities. The lognormal assumption is not adopted for $F_T$.
-
-In equity markets, the implied volatility decreases as the strike price increases, since equity prices and volatility are negatively correlated \parencite[456]{hullOptionsFuturesOther2022}.
-In energy markets the smile is skewed to the right, since participants pay more for protection against a sharp rise in prices. This was found for crude oil, heating oil, gasoline and natural gas
-\parencite[105]{gemanCommoditiesCommodityDerivatives2006}. 
+In equity markets, the implied volatility decreases as the strike price increases. This pattern is referred to as the volatility skew. A falling stock price increases the leverage of the company and makes its equity riskier, so volatility rises when prices fall \parencite[456]{hullOptionsFuturesOther2022}.
+In energy markets, the smile is skewed to the right. Supply disruptions cause sharp price rises (Sec.~\ref{sec:gas-markets}), and consumers of energy buy call options to protect themselves against these price spikes. The demand raises the prices of calls with high strikes. Consequently, their implied volatility rises as well. A right skew was found for crude oil, heating oil, gasoline, and natural gas \parencite[105]{gemanCommoditiesCommodityDerivatives2005}. 

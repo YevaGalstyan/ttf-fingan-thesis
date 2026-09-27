@@ -65,7 +65,7 @@
    <dc:title><rdf:Alt><rdf:li xml:lang="x-default">Synthetic Price Path Generation for European Gas Markets Using Generative Adversarial Networks with Applications to Option Pricing</rdf:li></rdf:Alt></dc:title>
    <dc:creator><rdf:Seq><rdf:li>Yeva Galstyan</rdf:li></rdf:Seq></dc:creator>
    <dc:language><rdf:Bag><rdf:li>en-GB</rdf:li></rdf:Bag></dc:language>
-   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">Master's Thesis, Hochschule Fulda</rdf:li></rdf:Alt></dc:description>
+   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">Master's Thesis, Fulda University of Applied Sciences</rdf:li></rdf:Alt></dc:description>
    <dc:subject><rdf:Bag><rdf:li>GAN</rdf:li>
      <rdf:li>TTF</rdf:li>
      <rdf:li>option pricing</rdf:li></rdf:Bag></dc:subject>
@@ -80,15 +80,15 @@
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> 
    <xmp:CreatorTool>LaTeX with hyperref</xmp:CreatorTool> 
-   <xmp:ModifyDate>2026-09-25T22:34:41+02:00</xmp:ModifyDate> 
-   <xmp:CreateDate>2026-09-25T22:34:41+02:00</xmp:CreateDate> 
-   <xmp:MetadataDate>2026-09-25T22:34:41+02:00</xmp:MetadataDate> 
+   <xmp:ModifyDate>2026-09-26T03:53:28+02:00</xmp:ModifyDate> 
+   <xmp:CreateDate>2026-09-26T03:53:28+02:00</xmp:CreateDate> 
+   <xmp:MetadataDate>2026-09-26T03:53:28+02:00</xmp:MetadataDate> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpRights = "http://ns.adobe.com/xap/1.0/rights/"> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"> 
    <xmpMM:DocumentID>uuid:DF005B57-2A06-8753-7167-92D8CE935460</xmpMM:DocumentID> 
-   <xmpMM:InstanceID>uuid:301FEFE0-2191-34B0-C53F-496074BAB484</xmpMM:InstanceID> 
+   <xmpMM:InstanceID>uuid:F1832384-A40A-111B-EC3A-EB8C5090EF55</xmpMM:InstanceID> 
   </rdf:Description> 
  </rdf:RDF> 
 </x:xmpmeta> 

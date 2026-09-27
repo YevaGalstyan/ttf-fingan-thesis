@@ -2,8 +2,7 @@
 This section describes how the two datasets were processed. The futures data is turned into the daily front-month return series and split into training, validation, and test splits (Secs.~\ref{sec:futures-data}--\ref{sec:data-split}). The options data is joined and filtered into the panel that provides the market prices for the comparison in Sec.~\ref{sec:option-prices} (Secs.~\ref{sec:options-data} and~\ref{sec:options-panel}).
 
 \subsubsection{Futures Data}\label{sec:futures-data}
-The futures data was obtained from BASF's Bloomberg infrastructure and covers
-TTF natural gas futures for the front-month, second-month, and third-month contracts between January 2010 and April 2026. The data is distributed as three schemas: contract prices, contract metadata, and monthly listings of active contracts.
+The futures data was obtained from the Bloomberg infrastructure of BASF and covers TTF natural gas futures for the front-month, second-month, and third-month contracts between January 2010 and April 2026. The data is distributed as three schemas: contract prices, contract metadata, and monthly listings of active contracts.
 
 \textbf{Daily settlement prices.} This schema provides the price history of the contracts in the dataset. Each contract is observed once per trading day, identified by contract symbol and trading date. Each record contains opening, high, low, and daily closing prices in EUR/MWh, trading volume, and open interest. Coverage of these fields varies considerably with how actively a contract was traded and how far from expiry it is. The closing price is the exception and is available throughout the whole dataset. Additionally, it falls outside the intraday high-low range for \num{7712} of \num{25884} records, or \SI{29.8}{\percent}. The deviation is small in most cases, with a median of \SI{0.10}{\eurmwh}, but reaches up to \SI{42.26}{\eurmwh}. This confirms that it is a settlement price set by the exchange rather than a price at which trading occurred.
 
@@ -48,7 +47,7 @@ The return series was split chronologically into training (\SI{80}{\percent}), v
     \label{fig:ttf-price-split}
 \end{figure}
 
-The chronological split was explicitly used to avoid look-ahead bias. Following the current split, the 2021 to 2022 price disruption discussed in Sec.~\ref{sec:gas-markets} falls entirely within the training period, and the 2026 disruption falls entirely within the test period, as seen in Fig.~\ref{fig:ttf-price-split}. Sliding window matrices were constructed for each split separately, so that no window spans a split boundary. The window was moved forward by one trading day.
+The chronological split was explicitly used to avoid look-ahead bias. With this split, the 2021 to 2022 price disruption discussed in Sec.~\ref{sec:gas-markets} falls entirely within the training period, and the 2026 disruption falls entirely within the test period, as seen in Fig.~\ref{fig:ttf-price-split}. Sliding window matrices were constructed for each split separately, so that no window spans a split boundary. The window was moved forward by one trading day.
 
 \subsubsection{Options Data}\label{sec:options-data}
 The TTF options data was obtained from Databento and covers ICE Endex TTF natural gas options. Contract records span March 2019 to June 2026, and daily settlement prices are available from March 2023 to June 2026. The price coverage contains the full test split of Sec.~\ref{sec:data-split}. The data is distributed as five schemas: Definition, Statistics, Best bid and offer (BBO), Open High Low Close Volume (OHLCV), and Status.

@@ -146,7 +146,7 @@ Both are identified by a standard deviation below a threshold $\epsilon=0.0002$.
     \label{eq:wpnl-trade}
     \mathrm{wPnL}^{i}_{2} = 10000 \left( p^{i}_{u} - p^{i}_{d} \right) x_i ,
 \end{equation}
-where $p^{i}_{u}$ and $p^{i}_{d}$ are the fractions of non-negative and negative samples among the $B$ samples. \textcite{vuleticFinGANForecastingClassifying2024} use $B = 1000$. Since the equity data uses two returns per day, intraday and overnight, two positions are taken per day. The $\mathrm{wPnL}^{i}$ series is 
+where $p^{i}_{u}$ and $p^{i}_{d}$ are the fractions of non-negative and negative samples among the $B$ samples. \textcite{vuleticFinGANForecastingClassifying2024} use $B = \num{1000}$. Since the equity data uses two returns per day, intraday and overnight, two positions are taken per day. The $\mathrm{wPnL}^{i}$ series is 
 the sum of the two $\mathrm{wPnL}^{i}_{2}$ values per day. 
 For the equity data of \textcite{vuleticFinGANForecastingClassifying2024}, two returns per day give $n_{\text{days}} = \lfloor n/2 \rfloor$. The Sharpe ratio $\mathrm{SR}_{w}$ is then
 \begin{equation}

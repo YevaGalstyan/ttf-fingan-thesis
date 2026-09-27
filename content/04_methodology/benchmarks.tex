@@ -21,7 +21,7 @@ GBM reproduces none of the stylized facts of Sec.~\ref{sec:stylized-facts}. The 
 
 Two choices of $\sigma$ are considered. The first is the implied volatility published by the exchange at the listed strike closest to the settlement price on the valuation date. The published $\sigma$ is obtained by inverting Black-76 at that strike, so pricing the same strike returns the market price. The second choice is the annualized realized volatility of the front-month returns over the preceding \num{60} trading days. The realized volatility is computed from the return series alone, without option prices. The realized volatility lies below the implied volatility on most valuation dates. The results of Sec.~\ref{sec:option-prices} are reported with the implied volatility.
 
-The historical simulation draws paths of $h$ returns by resampling the observed returns, a procedure known as the bootstrap \parencite{efronBootstrapMethodsAnother1979}. The returns are drawn from the training split of Sec.~\ref{sec:data-pipeline}, so no test data enters the benchmark. Two modes of the bootstrap are considered. In the independent and identically distributed ($\mathrm{iid}$) mode, each of the $h$ returns is drawn independently with replacement, so the same observed return can enter a path more than once. No distributional assumption is made, since the returns are drawn from the observed distribution. In the block mode, each path is a block of $h$ consecutive returns \parencite{kunschJackknifeBootstrapGeneral1989}. The order of the observed series is preserved within each block, so the volatility clustering of Sec.~\ref{sec:stylized-facts} is present as well. The training split contains $3197 - h + 1$ distinct blocks, so the \num{20000} paths reuse each block multiple times. The paths are not independent, so the Monte Carlo standard error of Sec.~\ref{sec:pricing-setup} is too small in the block mode. 
+The historical simulation draws paths of $h$ returns by resampling the observed returns, a procedure known as the bootstrap \parencite{efronBootstrapMethodsAnother1979}. The returns are drawn from the training split of Sec.~\ref{sec:data-pipeline}, so no test data enters the benchmark. Two modes of the bootstrap are considered. In the independent and identically distributed ($\mathrm{iid}$) mode, each of the $h$ returns is drawn independently with replacement, so the same observed return can enter a path more than once. No distributional assumption is made, since the returns are drawn from the observed distribution. In the block mode, each path is a block of $h$ consecutive returns \parencite{kunschJackknifeBootstrapGeneral1989}. The order of the observed series is preserved within each block, so the volatility clustering of Sec.~\ref{sec:stylized-facts} is present as well. The training split contains $\num{3197} - h + 1$ distinct blocks, so the \num{20000} paths reuse each block multiple times. The paths are not independent, so the Monte Carlo standard error of Sec.~\ref{sec:pricing-setup} is too small in the block mode. 
 
 Table~\ref{tab:benchmark-properties} states which stylized facts each model can reproduce by construction. How far the selected model $G$ reproduces them in practice is reported in Chapter~\ref{sec:exp}. The selected model $G$ is the only model conditioned on the returns preceding the valuation date. GBM and the $\mathrm{iid}$ bootstrap differ in the distribution of the returns, while both draw the returns independently. The difference between these two benchmarks is attributable to the heavy tails and the asymmetry of Sec.~\ref{sec:stylized-facts} jointly. The two bootstrap modes draw from the same returns and differ only in the order, so the difference between them is attributable to the volatility clustering.
 
@@ -33,11 +33,11 @@ Table~\ref{tab:benchmark-properties} states which stylized facts each model can 
     \midrule
     GBM & none \\
     Bootstrap, $\mathrm{iid}$            & heavy tails, asymmetry \\
-    Bootstrap, block          & heavy tails, asymmetry, volatility clustering \\
-    Selected model $G$        & heavy tails, asymmetry, volatility clustering \\
+    Bootstrap, block          & heavy tails, volatility clustering, asymmetry \\
+    Selected model $G$        & heavy tails, volatility clustering, asymmetry \\
     \bottomrule
   \end{tabular}
-  \caption{Stylized facts the benchmarks and selected model $G$ can reproduce by construction}
+  \caption[Stylized facts by construction]{Stylized facts the benchmarks and selected model $G$ can reproduce by construction}
   \label{tab:benchmark-properties}
 \end{table}
 

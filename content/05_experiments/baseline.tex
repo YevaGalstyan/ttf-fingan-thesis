@@ -1,7 +1,7 @@
-\subsection{Baseline and Training Length}\label{sec:baseline}
-The generated returns of the ForGAN baseline are reported for the first two configurations of Table~\ref{tab:configurations}, which differ only in their training schedule. They are compared to the statistical properties of the test split from Sec.~\ref{sec:properties-ttf}. Table~\ref{tab:baseline_training_length} reports both configurations alongside the test split. The reference values were computed from the rows of the test window matrix. With $l = 10$, the 401 returns of the test split give $n_{\mathrm{cond}} = 391$ rows. Mode collapse (Sec.~\ref{sec:evaluation}) was not detected in any run of the experimental grid.
+\subsection{ForGAN Baseline: Training Length}\label{sec:baseline}
+This section reports how the training length affects the generated returns of the ForGAN baseline. Configurations 1 and 2 differ only in their training schedule. They are compared to the statistical properties of the test split from Sec.~\ref{sec:properties-ttf}. Table~\ref{tab:baseline_training_length} reports both configurations alongside the test split. The reference values were computed from the rows of the test window matrix. With $l = 10$, the \num{401} returns of the test split give $n_{\mathrm{cond}} = \num{391}$ rows. Mode collapse (Sec.~\ref{sec:evaluation}) was not detected in any run of the experimental grid.
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrr@{}}
     \toprule
@@ -24,12 +24,11 @@ The generated returns of the ForGAN baseline are reported for the first two conf
     $C_2(10)$          & $0.012$   & \ms{0.018}{0.032}    & \ms{0.073}{0.056}    \\
     \bottomrule
   \end{tabular*}
-  \caption{Distributional statistics and autocorrelation of generated
-  daily TTF log returns on the test split, ForGAN baseline, configurations 1 and 2}
+  \caption[ForGAN baseline, configurations 1 and 2]{Distributional statistics and autocorrelation of generated daily TTF log returns on the test split, ForGAN baseline, configurations 1 and 2}
   \label{tab:baseline_training_length}
 \end{table}
 
-\textbf{Heavy tails.} The excess kurtosis of the ForGAN baseline under configuration 1 is \ms{0.32}{0.42}, compared to $13.27$ for the test split. Under configuration 2, the excess kurtosis increases to \ms{4.51}{1.52}, roughly a third of the test split value. The seed spread is large; however, the ranges of the two configurations do not overlap.
+\textbf{Heavy tails.} The excess kurtosis of the ForGAN baseline under configuration 1 is \ms{0.32}{0.42}, compared to $13.27$ for the test split. Under configuration 2, the excess kurtosis increases to \ms{4.51}{1.52}, roughly a third of the test split value. The seed spread is large. However, the ranges of the two configurations do not overlap.
 The exceedance fractions of configuration 1 do not carry a reliable signal, as the seed spread is larger than the mean, \ms{0.115}{0.124} for $P(|x| > 0.05)$. Under configuration 2 both exceedance fractions match the values of the test split, \ms{0.129}{0.021} against $0.130$ and \ms{0.026}{0.008} against $0.026$. The ForGAN baseline under configuration 2 generates large returns at the observed frequency, but does not generate the few extreme returns that increase the excess kurtosis. 
 The standard deviation of the ForGAN baseline under configuration 1 is \ms{0.0303}{0.0118}, compared to $0.0404$ for the test split. Under configuration 2, the standard deviation is \ms{0.0365}{0.0034}, slightly below the test split value.
 Longer training increases the tail weight, but the excess kurtosis remains far below the test split. 
@@ -42,7 +41,7 @@ The minimum and maximum values provide additional information about the asymmetr
 Table~\ref{tab:mse_training_length} reports the same statistics for the MSE branch, the supervised counterpart of the ForGAN baseline, under configurations 1 and 2. The excess kurtosis of the MSE branch under configuration 1 is \ms{0.19}{0.23}, against \ms{0.32}{0.42} for the ForGAN baseline. Under configuration 2, the excess kurtosis of the MSE branch is \ms{4.13}{1.20}, close to the \ms{4.51}{1.52} of the ForGAN baseline. The two branches show similar patterns in the distributional properties.
 The main difference between these two branches is the skewness. The skewness of the MSE branch under configuration 2 is \ms{0.39}{0.27}, compared to \ms{0.19}{0.58} for the ForGAN baseline. The seed spread for MSE does not cross zero, so the MSE branch reproduces a positive skew, unlike the ForGAN baseline. However, the skewness under both configurations is still below the test split value of $0.92$. The MSE branch also varies less across seeds than the ForGAN baseline on the distributional statistics, under both configurations.
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrr@{}}
     \toprule
@@ -65,8 +64,7 @@ The main difference between these two branches is the skewness. The skewness of 
     $C_2(10)$          & $0.012$   & \ms{0.024}{0.041}    & \ms{0.134}{0.078}    \\
     \bottomrule
   \end{tabular*}
-  \caption{Distributional statistics and autocorrelation of generated
-  daily TTF log returns on the test split, MSE branch, configurations 1 and 2}
+  \caption[MSE branch, configurations 1 and 2]{Distributional statistics and autocorrelation of generated daily TTF log returns on the test split, MSE branch, configurations 1 and 2}
   \label{tab:mse_training_length}
 \end{table}
 

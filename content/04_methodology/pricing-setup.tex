@@ -1,11 +1,11 @@
 \subsection{Option Pricing Setup}\label{sec:pricing-setup}
 This section describes how the selected model is used to price options. The rollout generates price paths from one-day returns, the paths are made risk-neutral, and call options are priced by Monte Carlo simulation and converted into implied volatilities.
 
-The generator $G$ produces one-day returns for the underlying futures contract. Option pricing, described in Sec.~\ref{sec:options}, requires the distribution of the settlement price at expiry, which lies several weeks ahead of the valuation date. The valuation date is the trading day on which the option is priced. The generator was applied recursively to generate a path of one-day returns. The procedure is referred to as a rollout. The rollout was initialized with the $l$ realized returns that preceded the valuation date. At each step, $G$ took the condition window of $l$ returns and produced the next return. The generated return was appended to the condition window, and the oldest return was removed, keeping the window size constant. The step was repeated until the number of generated returns equalled the number of trading days to expiry. After $l$ recursive steps, the condition window consisted of generated returns only (Fig.~\ref{fig:rollout-window}). 
+The generator $G$ produces one-day returns for the underlying futures contract. Option pricing, described in Sec.~\ref{sec:options}, requires the distribution of the settlement price at expiry, which lies several weeks ahead of the valuation date. The valuation date is the trading day on which the option is priced. The generator was applied recursively to generate a path of one-day returns. The procedure is referred to as a rollout. The rollout was initialized with the $l$ realized returns that preceded the valuation date. At each step, $G$ took the condition window of $l$ returns and produced the next return. The generated return was appended to the condition window, and the oldest return was removed, keeping the window size constant. The step was repeated until the number of generated returns equaled the number of trading days to expiry. After $l$ recursive steps, the condition window consisted of generated returns only (Fig.~\ref{fig:rollout-window}). 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/rollout_window.pdf}
+  \includegraphics[width=0.85\textwidth]{figures/rollout_window.pdf}
   \caption{Condition window during the rollout}
   \label{fig:rollout-window}
 \end{figure}
@@ -29,8 +29,8 @@ where $\hat{F}_T^{(i)}$ is the simulated settlement price on path $i$ and $\tild
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/pricing_pipeline.pdf}
-  \caption{Option pricing procedure for one valuation date}
+  \includegraphics[width=0.9\textwidth]{figures/pricing_pipeline.pdf}
+  \caption{Pricing procedure for one valuation date}
   \label{fig:pricing-pipeline}
 \end{figure}
 

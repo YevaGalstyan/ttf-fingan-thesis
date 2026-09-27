@@ -80,9 +80,18 @@ def main():
 
     axes[0].set_ylabel("Implied volatility")
 
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=len(labels),
-               frameon=False, fontsize=9, bbox_to_anchor=(0.5, -0.06))
+    handles, labels = \
+        axes[0].get_legend_handles_labels()
+    handles.append(
+        plt.Rectangle((0, 0), 1, 1,
+                      facecolor=GENERATOR[2],
+                      alpha=0.18, lw=0))
+    labels.append("$G$, seed range")
+    fig.legend(handles, labels,
+               loc="lower center",
+               ncol=len(labels),
+               frameon=False, fontsize=9,
+               bbox_to_anchor=(0.5, -0.06))
 
     fig.tight_layout()
     out_path = FIG_DIR / "smiles.pdf"

@@ -106,7 +106,8 @@ def plot(g):
             label="Bootstrap, block")
     ax.fill_between(x, g["sd_ann"] - g["sd_ann_sd"],
                     g["sd_ann"] + g["sd_ann_sd"],
-                    color=G_COLOR, alpha=0.18, lw=0)
+                    color=G_COLOR, alpha=0.18, lw=0,
+                    label="$G$, seed range")
     ax.plot(x, g["sd_ann"], color=G_COLOR, lw=1.6, marker="o", ms=3.5,
             label="$G$")
 

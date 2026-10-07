@@ -191,4 +191,4 @@ The TTF futures data (Bloomberg, via BASF) and the ICE TTF options data (Databen
 
 ## Status
 
-Draft.
+Submitted on 25/09/2026
